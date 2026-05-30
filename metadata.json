@@ -1,0 +1,8 @@
+{
+  "name": "Nusa Culinary",
+  "description": "Your personal collection of rich Indonesian flavors and traditional recipes.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

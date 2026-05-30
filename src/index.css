@@ -1,0 +1,181 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
+  
+  --color-primary: #944a00;
+  --color-primary-container: #e67e22;
+  --color-on-primary: #ffffff;
+  --color-primary-fixed: #ffdbca;
+  --color-on-primary-fixed: #311300;
+  
+  --color-secondary: #b02d21;
+  --color-secondary-container: #fc6451;
+  --color-on-secondary: #ffffff;
+  --color-on-secondary-container: #650001;
+  
+  --color-tertiary: #735c00;
+  --color-tertiary-container: #cea700;
+  --color-on-tertiary: #ffffff;
+  --color-on-tertiary-container: #4e3e00;
+  
+  --color-surface: #f9f9f9;
+  --color-surface-container: #eeeeee;
+  --color-surface-container-low: #f3f3f3;
+  --color-surface-container-high: #e8e8e8;
+  --color-surface-container-lowest: #ffffff;
+  
+  --color-on-surface: #1a1c1c;
+  --color-on-surface-variant: #564337;
+  --color-outline: #897365;
+  --color-outline-variant: #dcc1b1;
+
+  --radius-xl: 1.5rem;
+}
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@layer base {
+  .dark {
+    --color-surface: #09090b;
+    --color-surface-container: #18181b;
+    --color-surface-container-low: #141417;
+    --color-surface-container-high: #27272a;
+    --color-surface-container-lowest: #0d0d0f;
+    
+    --color-on-surface: #f4f4f5;
+    --color-on-surface-variant: #a1a1aa;
+    --color-outline: #71717a;
+    --color-outline-variant: #3f3f46;
+  }
+
+  body {
+    @apply bg-surface text-on-surface font-sans;
+  }
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.markdown-content h2 {
+  font-weight: 800;
+  font-size: 1.1rem;
+  margin-top: 1rem;
+  margin-bottom: 0.5rem;
+  color: var(--color-primary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.markdown-content h3 {
+  font-weight: 700;
+  font-size: 0.9rem;
+  margin-top: 0.8rem;
+  margin-bottom: 0.4rem;
+  color: var(--color-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.025em;
+}
+
+.markdown-content p {
+  margin-bottom: 0.5rem;
+}
+
+.markdown-content ul {
+  list-style-type: disc;
+  margin-left: 1.25rem;
+  margin-bottom: 0.75rem;
+}
+
+.markdown-content ol {
+  list-style-type: decimal;
+  margin-left: 1.25rem;
+  margin-bottom: 0.75rem;
+}
+
+.markdown-content li {
+  margin-bottom: 0.25rem;
+}
+
+.markdown-content strong {
+  font-weight: 700;
+  color: var(--color-primary);
+}
+
+/* Skeleton shimmer animation */
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+.skeleton {
+  background: linear-gradient(90deg, var(--color-surface-container) 25%, var(--color-surface-container-high) 50%, var(--color-surface-container) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite ease-in-out;
+  border-radius: 0.75rem;
+}
+
+/* Badge counter */
+.badge-counter {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 5px;
+  border-radius: 9999px;
+  background: var(--color-secondary);
+  color: white;
+  font-size: 10px;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  border: 2px solid var(--color-surface-container);
+}
+
+/* Difficulty badge colors */
+.diff-easy { background: #059669; color: white; }
+.diff-medium { background: #d97706; color: white; }
+.diff-hard { background: #dc2626; color: white; }
+
+/* Custom scrollbar for desktop */
+@media (min-width: 768px) {
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb {
+    background: var(--color-outline-variant);
+    border-radius: 3px;
+  }
+  ::-webkit-scrollbar-thumb:hover { background: var(--color-outline); }
+}
+
+/* Print styles */
+@media print {
+  body { background: white !important; color: black !important; }
+  header, nav, footer, button, .no-print,
+  [class*="fixed"]:not(.print-view), [class*="sticky"]:not(.print-view) { display: none !important; }
+  .print-view {
+    position: relative !important;
+    display: block !important;
+    height: auto !important;
+    overflow: visible !important;
+    inset: auto !important;
+    background: white !important;
+    color: black !important;
+    padding-bottom: 0 !important;
+  }
+  main { padding: 0 !important; margin: 0 !important; max-width: 100% !important; }
+  .print-only { display: block !important; }
+  img { max-height: 300px; object-fit: cover; }
+  * { box-shadow: none !important; border-radius: 0 !important; }
+}
+
+.print-only { display: none; }
