@@ -189,6 +189,34 @@ export async function deleteComment(id: string): Promise<boolean> {
   return true;
 }
 
+export async function incrementCommentHelpful(id: string, currentHelpful: number): Promise<boolean> {
+  const { error } = await supabase
+    .from('comments')
+    .update({ helpful_count: currentHelpful + 1 })
+    .eq('id', id);
+
+  if (error) {
+    console.error('Error incrementing helpful count:', error);
+    return false;
+  }
+
+  return true;
+}
+
+export async function incrementCommentReplies(id: string, currentReplies: number): Promise<boolean> {
+  const { error } = await supabase
+    .from('comments')
+    .update({ replies_count: currentReplies + 1 })
+    .eq('id', id);
+
+  if (error) {
+    console.error('Error incrementing replies count:', error);
+    return false;
+  }
+
+  return true;
+}
+
 // ============================
 // SAVED RECIPES (Bookmarks)
 // ============================

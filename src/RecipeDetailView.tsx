@@ -26,6 +26,52 @@ interface RecipeDetailViewProps {
   onViewProfile?: (authorId: string) => void;
 }
 
+const scaleQuantity = (detail: string, mult: number): string => {
+  if (!detail || mult === 1) return detail;
+  const regex = /(\d+\s+\d+\/\d+|\d+\/\d+|\d+\.\d+|\d+)/g;
+  return detail.replace(regex, (match) => {
+    let val = 0;
+    if (match.includes('/')) {
+      if (match.includes(' ')) {
+        const parts = match.split(/\s+/);
+        const whole = parseFloat(parts[0]);
+        const fracParts = parts[1].split('/');
+        const frac = parseFloat(fracParts[0]) / parseFloat(fracParts[1]);
+        val = whole + frac;
+      } else {
+        const parts = match.split('/');
+        val = parseFloat(parts[0]) / parseFloat(parts[1]);
+      }
+    } else {
+      val = parseFloat(match);
+    }
+    if (isNaN(val)) return match;
+    const scaled = val * mult;
+    const whole = Math.floor(scaled);
+    const remainder = scaled - whole;
+    const epsilon = 0.01;
+    if (Math.abs(remainder) < epsilon) {
+      return whole.toString();
+    }
+    if (Math.abs(remainder - 0.5) < epsilon) {
+      return whole === 0 ? "1/2" : `${whole} 1/2`;
+    }
+    if (Math.abs(remainder - 0.25) < epsilon) {
+      return whole === 0 ? "1/4" : `${whole} 1/4`;
+    }
+    if (Math.abs(remainder - 0.75) < epsilon) {
+      return whole === 0 ? "3/4" : `${whole} 3/4`;
+    }
+    if (Math.abs(remainder - 0.33) < 0.02) {
+      return whole === 0 ? "1/3" : `${whole} 1/3`;
+    }
+    if (Math.abs(remainder - 0.66) < 0.02) {
+      return whole === 0 ? "2/3" : `${whole} 2/3`;
+    }
+    return parseFloat(scaled.toFixed(2)).toString();
+  });
+};
+
 export default function RecipeDetailView({ 
   recipe, 
   onBack, 
@@ -287,6 +333,20 @@ export default function RecipeDetailView({
 
     if (created) {
       setDbComments(prev => [created, ...prev]);
+      
+      if (replyingTo) {
+        const parentId = replyingTo.id;
+        const parentComment = dbComments.find(c => c.id === parentId);
+        if (parentComment) {
+          // Increment locally
+          setDbComments(prev => 
+            prev.map(c => c.id === parentId ? { ...c, repliesCount: (c.repliesCount || 0) + 1 } : c)
+          );
+          // Increment in Supabase
+          api.incrementCommentReplies(parentId, parentComment.repliesCount || 0);
+        }
+      }
+
       setNewComment("");
       setReplyingTo(null);
       addToast("Comment posted successfully!");
@@ -366,7 +426,7 @@ export default function RecipeDetailView({
       </header>
 
       <main className="max-w-7xl mx-auto pt-16">
-        <section className="relative w-full max-w-4xl mx-auto aspect-video bg-surface-container-highest overflow-hidden">
+        <section className="relative w-full max-w-4xl mx-auto aspect-video bg-surface-container-highest overflow-hidden no-print">
           <AnimatePresence mode="wait">
             {!isPlaying ? (
               <motion.div 
@@ -727,7 +787,7 @@ export default function RecipeDetailView({
           <h2 className="text-4xl font-extrabold text-on-surface leading-tight mb-4">{recipe.title}</h2>
           
           {/* Creator Profile Section */}
-          <div className="flex items-center gap-3 mb-6 bg-surface-container-low p-3 rounded-2xl border border-outline-variant/10 max-w-sm">
+          <div className="flex items-center gap-3 mb-6 bg-surface-container-low p-3 rounded-2xl border border-outline-variant/10 max-w-sm no-print">
             <button 
               onClick={() => recipe.authorId && onViewProfile && onViewProfile(recipe.authorId)}
               className="w-10 h-10 rounded-full bg-surface-container-high border border-outline-variant/10 overflow-hidden flex items-center justify-center cursor-pointer transition-transform active:scale-95 shrink-0"
@@ -750,7 +810,7 @@ export default function RecipeDetailView({
             </div>
           </div>
           
-          <div className="flex items-center gap-2 mb-6">
+          <div className="flex items-center gap-2 mb-6 no-print">
             <div className="flex items-center">
               {[1, 2, 3, 4, 5].map((star) => (
                 <button
@@ -846,6 +906,7 @@ export default function RecipeDetailView({
 
       {/* Simple Printable Meta (only visible when printing) */}
       <div className="print-only mb-6 border-b border-black/25 pb-4">
+        <img src={recipe.image} alt={recipe.title} className="w-full h-64 object-cover mb-4 rounded-lg" />
         <p><strong>{t("Prep Time")}:</strong> {recipe.prepTime} | <strong>{t("Cook Time")}:</strong> {recipe.cookTime} | <strong>{t("Calories")}:</strong> {recipe.calories}</p>
         <p><strong>{t("Difficulty")}:</strong> {t(recipe.difficulty)} | <strong>{t("Preferred Region")}:</strong> {t(recipe.region)}</p>
       </div>
@@ -899,7 +960,7 @@ export default function RecipeDetailView({
 
         <div className="lg:grid lg:grid-cols-12 lg:gap-8 px-4 lg:px-6">
           <div className="lg:col-span-5 space-y-8">
-            <section className="py-8 bg-surface-container-low rounded-xl">
+            <section className="py-8 px-6 bg-surface-container-low rounded-xl">
           <div className="flex flex-col gap-4 mb-6">
             <div className="flex items-baseline justify-between">
               <h3 className="text-2xl font-bold text-on-surface">{t("Ingredients")}</h3>
@@ -920,7 +981,7 @@ export default function RecipeDetailView({
               </div>
             </div>
             
-            <div className="relative group">
+            <div className="relative group no-print">
               <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-outline" />
               <input 
                 type="text" 
@@ -959,7 +1020,7 @@ export default function RecipeDetailView({
                 >
                   <label className={`flex items-center gap-4 group cursor-pointer p-3 rounded-xl transition-all duration-300 ${isMatch ? 'bg-primary/10 ring-1 ring-primary/20' : 'hover:bg-surface-container-lowest'} ${checkedIngredients.includes(i) ? 'opacity-60' : ''}`}>
                     <input 
-                      className="w-6 h-6 rounded-md border-outline-variant text-primary focus:ring-primary/20 cursor-pointer transition-all" 
+                      className="w-6 h-6 rounded-md border-outline-variant text-primary focus:ring-primary/20 cursor-pointer transition-all no-print" 
                       type="checkbox"
                       checked={checkedIngredients.includes(i)}
                       onChange={() => toggleIngredient(i)}
@@ -974,14 +1035,14 @@ export default function RecipeDetailView({
                           onClick={(e) => {
                             e.preventDefault();
                             e.stopPropagation();
-                            onAddIngredient(ing.name, ing.detail);
+                            onAddIngredient(ing.name, scaleQuantity(ing.detail, multiplier));
                           }}
                           className="text-[10px] font-bold text-primary uppercase tracking-widest mt-1 hover:underline text-left"
                         >
                           Add to List +
                         </button>
                       </div>
-                      <span className="text-on-surface-variant text-sm">{ing.detail}</span>
+                      <span className="text-on-surface-variant text-sm">{scaleQuantity(ing.detail, multiplier)}</span>
                     </div>
                   </label>
                   
@@ -1008,9 +1069,9 @@ export default function RecipeDetailView({
 
             <button 
               onClick={() => {
-                recipe.ingredients.forEach(ing => onAddIngredient(ing.name, ing.detail));
+                recipe.ingredients.forEach(ing => onAddIngredient(ing.name, scaleQuantity(ing.detail, multiplier)));
               }}
-              className="mt-4 w-full py-3 rounded-2xl border border-primary/20 bg-primary/5 text-primary text-xs font-black uppercase tracking-widest hover:bg-primary/10 transition-all active:scale-95"
+              className="mt-4 w-full py-3 rounded-2xl border border-primary/20 bg-primary/5 text-primary text-xs font-black uppercase tracking-widest hover:bg-primary/10 transition-all active:scale-95 no-print"
             >
               {t("Add Ingredients to Shopping List")}
             </button>
@@ -1069,7 +1130,7 @@ export default function RecipeDetailView({
           </div>
         </section>
 
-            <section className="py-12 bg-surface border-t border-outline-variant/10">
+            <section className="py-12 bg-surface border-t border-outline-variant/10 no-print">
               <div className="flex flex-col md:flex-row md:items-center justify-between mb-8 gap-4">
                 <h3 className="text-2xl font-bold text-on-surface">{t("Chef Discussion")}</h3>
                 <div className="flex items-center gap-2 bg-surface-container p-1 rounded-full border border-outline-variant/20 overflow-x-auto no-scrollbar max-w-full" role="radiogroup" aria-label="Sort comments">
@@ -1134,14 +1195,17 @@ export default function RecipeDetailView({
                         Reply
                       </button>
                       <button 
-                        onClick={() => {
-                          const updatedComments = currentComments.map(c => 
-                            c.id === comment.id ? { ...c, helpfulCount: (c.helpfulCount || 0) + 1 } : c
+                        onClick={async () => {
+                          setDbComments(prev => 
+                            prev.map(c => c.id === comment.id ? { ...c, helpfulCount: (c.helpfulCount || 0) + 1 } : c)
                           );
-                          onUpdateRecipe({
-                            ...recipe,
-                            comments: updatedComments
-                          });
+                          const success = await api.incrementCommentHelpful(comment.id, comment.helpfulCount || 0);
+                          if (!success) {
+                            setDbComments(prev => 
+                              prev.map(c => c.id === comment.id ? { ...c, helpfulCount: comment.helpfulCount } : c)
+                            );
+                            addToast("Failed to mark comment as helpful", "error");
+                          }
                         }}
                         className="flex items-center gap-1.5 text-[10px] font-bold text-on-surface-variant uppercase tracking-widest hover:text-tertiary transition-colors active:scale-95 focus:ring-2 focus:ring-tertiary/20 focus:outline-none rounded-md px-1"
                         aria-label={`Mark comment by ${comment.name} as helpful. Current helpful count: ${comment.helpfulCount}`}

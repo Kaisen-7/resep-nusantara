@@ -138,14 +138,7 @@ export default function ProfileView({
               )}
             </div>
           </div>
-          {!isGuest && !isPublicView && (
-            <motion.div 
-              whileHover={{ scale: 1.1 }}
-              className="absolute bottom-1 right-1 w-8 h-8 bg-surface-container-high rounded-full flex items-center justify-center shadow-lg border border-outline-variant/20 cursor-pointer"
-            >
-              <Settings className="w-4 h-4 text-primary" />
-            </motion.div>
-          )}
+
         </div>
         <h2 className="text-3xl font-black text-on-surface mb-1">{displayName}</h2>
         {displayEmail && <p className="text-sm font-bold uppercase tracking-widest text-outline">{displayEmail}</p>}

@@ -89,7 +89,7 @@ export default function PreferencesView({ initialPreferences, onApply, onCancel 
             </div>
             <button 
               onClick={() => setDarkMode(!darkMode)}
-              className={`w-14 h-8 rounded-full relative transition-colors duration-300 ${darkMode ? 'bg-primary' : 'bg-outline-variant/30'}`}
+              className={`w-14 h-8 rounded-full relative transition-colors duration-300 shrink-0 ${darkMode ? 'bg-primary' : 'bg-outline-variant/30'}`}
             >
               <motion.div 
                 animate={{ x: darkMode ? 24 : 4 }}
@@ -109,7 +109,7 @@ export default function PreferencesView({ initialPreferences, onApply, onCancel 
                 <p className="text-sm text-on-surface-variant">{t("SelectLanguage")}</p>
               </div>
             </div>
-            <div className="flex gap-2 bg-surface-container-lowest p-1 rounded-xl border border-outline-variant/10">
+            <div className="flex gap-2 bg-surface-container-lowest p-1 rounded-xl border border-outline-variant/10 shrink-0">
               <button
                 onClick={() => handleLanguageChange("id")}
                 className={`px-4 py-2 rounded-lg text-xs font-bold transition-all ${
@@ -146,7 +146,7 @@ export default function PreferencesView({ initialPreferences, onApply, onCancel 
             </div>
             <button 
               onClick={() => setNotifications(!notifications)}
-              className={`w-14 h-8 rounded-full relative transition-colors duration-300 ${notifications ? 'bg-primary' : 'bg-outline-variant/30'}`}
+              className={`w-14 h-8 rounded-full relative transition-colors duration-300 shrink-0 ${notifications ? 'bg-primary' : 'bg-outline-variant/30'}`}
             >
               <motion.div 
                 animate={{ x: notifications ? 24 : 4 }}
@@ -168,7 +168,7 @@ export default function PreferencesView({ initialPreferences, onApply, onCancel 
             </div>
             <button 
               onClick={() => setSoundEnabled(!soundEnabled)}
-              className={`w-14 h-8 rounded-full relative transition-colors duration-300 ${soundEnabled ? 'bg-primary' : 'bg-outline-variant/30'}`}
+              className={`w-14 h-8 rounded-full relative transition-colors duration-300 shrink-0 ${soundEnabled ? 'bg-primary' : 'bg-outline-variant/30'}`}
             >
               <motion.div 
                 animate={{ x: soundEnabled ? 24 : 4 }}
@@ -178,49 +178,6 @@ export default function PreferencesView({ initialPreferences, onApply, onCancel 
           </div>
         </div>
 
-        <div className="p-8 rounded-4xl border shadow-sm space-y-6 bg-surface-container-low border-outline-variant/10">
-          <h3 className="text-sm font-bold uppercase tracking-[0.2em] text-outline">{t("Content & Dietary")}</h3>
-          
-          {/* Dietary Restrictions */}
-          <div className="space-y-4">
-            <label className="flex items-center gap-4 mb-2">
-              <Heart className="w-5 h-5 text-secondary" />
-              <p className="font-bold text-on-surface">{t("Dietary Restrictions")}</p>
-            </label>
-            <div className="flex flex-wrap gap-3">
-              {dietOptions.map(option => (
-                <button
-                  key={option}
-                  onClick={() => setSelectedDiet(option)}
-                  className={`px-6 py-2.5 rounded-full text-sm font-bold transition-all ${
-                    selectedDiet === option 
-                      ? 'bg-secondary text-on-secondary shadow-md scale-105' 
-                      : 'bg-surface-container-lowest text-on-surface-variant hover:bg-surface-container-high'
-                  }`}
-                >
-                  {t(option)}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          {/* Region Dropdown */}
-          <div className="space-y-4 pt-4 border-t border-outline-variant/10">
-            <label className="flex items-center gap-4 mb-2">
-              <Globe className="w-5 h-5 text-tertiary" />
-              <p className="font-bold text-on-surface">{t("Preferred Region")}</p>
-            </label>
-            <select 
-              value={region}
-              onChange={(e) => handleRegionChange(e.target.value)}
-              className="w-full h-14 px-6 border rounded-2xl focus:ring-2 focus:ring-primary/20 outline-none font-medium transition-all appearance-none bg-surface-container-lowest border-outline-variant/20 text-on-surface"
-            >
-              <option value="Indonesia (Bahasa)">Indonesia (Bahasa)</option>
-              <option value="International (English)">International (English)</option>
-              <option value="Southeast Asia (Malay)">Southeast Asia (Malay)</option>
-            </select>
-          </div>
-        </div>
       </section>
 
       <div className="flex gap-4">

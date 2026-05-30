@@ -602,7 +602,7 @@ export default function App() {
       {/* AI Chat FAB */}
       <button 
         onClick={() => setIsAIChatOpen(!isAIChatOpen)}
-        className={`fixed bottom-24 md:bottom-8 right-6 w-14 h-14 rounded-full flex items-center justify-center shadow-lg transition-all duration-300 active:scale-90 hover:shadow-xl z-80 ${
+        className={`fixed ${currentView === "detail" ? "bottom-6" : "bottom-24"} md:bottom-8 right-6 w-14 h-14 rounded-full flex items-center justify-center shadow-lg transition-all duration-300 active:scale-90 hover:shadow-xl z-80 ${
           isAIChatOpen 
             ? 'bg-surface-container-highest text-primary rotate-90' 
             : 'bg-primary text-on-primary'
@@ -615,6 +615,7 @@ export default function App() {
       <AIChatbot 
         isOpen={isAIChatOpen}
         onClose={() => setIsAIChatOpen(false)}
+        isBottomBarVisible={currentView !== "detail"}
       />
 
       {/* Add Recipe Modal */}
@@ -655,7 +656,7 @@ export default function App() {
 
       {/* Scroll-to-Top Button */}
       <AnimatePresence>
-        {showScrollTop && (
+        {showScrollTop && currentView !== "detail" && (
           <motion.button
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}

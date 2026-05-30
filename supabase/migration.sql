@@ -95,6 +95,9 @@ CREATE POLICY "Authenticated users can create comments" ON comments
 CREATE POLICY "Users can update own comments" ON comments
   FOR UPDATE USING (auth.uid() = author_id);
 
+CREATE POLICY "Anyone can update comment metrics" ON comments
+  FOR UPDATE USING (true);
+
 CREATE POLICY "Users can delete own comments" ON comments
   FOR DELETE USING (auth.uid() = author_id);
 

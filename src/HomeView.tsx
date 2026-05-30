@@ -255,7 +255,7 @@ export default function HomeView({
                   layout
                   layoutId={`recipe-${recipe.id}`}
                   onClick={() => onRecipeClick(recipe)}
-                  className={`group cursor-pointer bg-surface-container-lowest rounded-xl overflow-hidden transition-all duration-300 hover:shadow-[0_20px_40px_rgba(148,74,0,0.1)] ${isWide ? 'sm:col-span-2 lg:col-span-1 xl:col-span-2 flex flex-col sm:flex-row lg:flex-col xl:flex-row h-auto' : ''}`}
+                  className={`group cursor-pointer bg-surface-container-lowest rounded-xl overflow-hidden transition-all duration-300 hover:shadow-[0_20px_40px_rgba(148,74,0,0.1)] flex flex-col ${isWide ? 'sm:col-span-2 lg:col-span-1 xl:col-span-2 sm:flex-row lg:flex-col xl:flex-row sm:h-[280px] lg:h-auto xl:h-[280px] h-auto' : 'h-full'}`}
                 >
                   <div className={`relative overflow-hidden ${isWide ? 'w-full sm:w-1/2 lg:w-full xl:w-1/2 h-64 sm:h-full lg:h-64 xl:h-full' : 'h-60'}`}>
                     <img src={recipe.image} alt={recipe.title} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
@@ -290,7 +290,7 @@ export default function HomeView({
                       </div>
                     )}
                   </div>
-                  <div className={`p-6 flex flex-col justify-center space-y-3 ${isWide ? 'w-full sm:w-1/2 lg:w-full xl:w-1/2' : ''}`}>
+                  <div className={`p-6 flex flex-col justify-between grow space-y-3 ${isWide ? 'w-full sm:w-1/2 lg:w-full xl:w-1/2' : ''}`}>
                     <h4 className="text-xl font-bold leading-tight group-hover:text-primary transition-colors">
                       {recipe.title}
                     </h4>

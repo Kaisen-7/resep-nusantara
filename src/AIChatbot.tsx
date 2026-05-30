@@ -14,9 +14,10 @@ interface Message {
 interface AIChatbotProps {
   isOpen: boolean;
   onClose: () => void;
+  isBottomBarVisible?: boolean;
 }
 
-export default function AIChatbot({ isOpen, onClose }: AIChatbotProps) {
+export default function AIChatbot({ isOpen, onClose, isBottomBarVisible = true }: AIChatbotProps) {
   const { user } = useAuth();
   const { t, language } = useLanguage();
   const [messages, setMessages] = useState<Message[]>([]);
@@ -95,7 +96,7 @@ export default function AIChatbot({ isOpen, onClose }: AIChatbotProps) {
             initial={{ opacity: 0, y: 20, scale: 0.95 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.95 }}
-            className="fixed bottom-24 right-6 w-[calc(100%-3rem)] md:w-[450px] h-[500px] md:h-[600px] max-h-[calc(100vh-8.5rem)] bg-surface-container-lowest rounded-[2.5rem] shadow-2xl z-100 border border-outline-variant/10 flex flex-col overflow-hidden"
+            className={`fixed ${isBottomBarVisible ? "bottom-24" : "bottom-6"} md:bottom-8 right-6 w-[calc(100%-3rem)] md:w-[450px] h-[500px] md:h-[600px] max-h-[calc(100vh-${isBottomBarVisible ? "8.5rem" : "4.5rem"})] bg-surface-container-lowest rounded-[2.5rem] shadow-2xl z-100 border border-outline-variant/10 flex flex-col overflow-hidden`}
           >
             {/* Header */}
             <div className="p-6 bg-primary text-on-primary flex justify-between items-center bg-linear-to-br from-primary to-primary-container">
