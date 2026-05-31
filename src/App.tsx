@@ -444,7 +444,7 @@ export default function App() {
         )}
 
         {/* Main Content Area */}
-        <main className={`max-w-5xl mx-auto px-6 pb-28 md:pb-12 ${currentView === "detail" ? "pt-0" : "pt-6"}`}>
+        <main className={`max-w-5xl mx-auto px-4 sm:px-6 pb-28 md:pb-12 ${currentView === "detail" ? "pt-0" : "pt-6"}`}>
         <AnimatePresence mode="wait">
           {currentView === "home" && (
             <HomeView 

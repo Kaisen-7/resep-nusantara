@@ -133,7 +133,7 @@ export default function HomeView({
         <p className="text-on-surface-variant font-medium tracking-tight">{greeting.emoji} {greeting.text}, {language === "id" ? "Pencinta Kuliner!" : "Foodie!"}</p>
         <h2 className="text-3xl font-extrabold text-on-surface tracking-tighter leading-tight mt-1">{t("Ready for a spice adventure?")}</h2>
         {!isLoading && recipes.length > 0 && (
-          <div className="flex items-center gap-3 mt-3 text-xs font-bold text-outline uppercase tracking-wider">
+          <div className="flex flex-wrap items-center gap-x-3 gap-y-1.5 mt-3 text-xs font-bold text-outline uppercase tracking-wider">
             <span>{recipes.length} {t("Recipes")}</span>
             <span className="w-1 h-1 rounded-full bg-outline" />
             <span>{new Set(recipes.map(r => r.region)).size} {t("Regions")}</span>
@@ -144,7 +144,7 @@ export default function HomeView({
       </header>
 
       {/* Quick Filter Chips */}
-      <div className="flex items-center gap-2 mb-8 overflow-x-auto no-scrollbar -mx-6 px-6 pb-1">
+      <div className="flex items-center gap-2 mb-8 overflow-x-auto no-scrollbar -mx-4 px-4 sm:-mx-6 sm:px-6 pb-1">
         {[
           { key: "all" as const, label: "All Recipes", icon: ChefHat },
           { key: "trending" as const, label: "🔥 Trending", icon: TrendingUp },
@@ -178,7 +178,7 @@ export default function HomeView({
               </button>
             )}
           </div>
-          <section className="-mx-6 overflow-x-auto no-scrollbar flex items-center gap-3 px-6 pb-2">
+          <section className="-mx-4 px-4 sm:-mx-6 sm:px-6 overflow-x-auto no-scrollbar flex items-center gap-3 pb-2">
             {categories.map((cat) => (
               <button 
                 key={cat}
@@ -203,7 +203,7 @@ export default function HomeView({
               </button>
             )}
           </div>
-          <section className="-mx-6 overflow-x-auto no-scrollbar flex items-center gap-3 px-6 pb-2">
+          <section className="-mx-4 px-4 sm:-mx-6 sm:px-6 overflow-x-auto no-scrollbar flex items-center gap-3 pb-2">
             {regions.map((region) => (
               <button 
                 key={region}
