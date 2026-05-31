@@ -355,7 +355,7 @@ export default function App() {
       </aside>
 
       {/* Main Panel */}
-      <div className="flex-1 flex flex-col min-w-0">
+      <div className="flex-1 flex flex-col min-w-0 overflow-x-hidden">
         {/* Top Bar - Only on Main Pages */}
         {currentView !== "detail" && (
           <header className="sticky top-0 z-40 backdrop-blur-xl border-b bg-surface/70 border-outline-variant/10">

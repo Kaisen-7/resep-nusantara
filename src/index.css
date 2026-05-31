@@ -50,6 +50,11 @@
     --color-outline-variant: #3f3f46;
   }
 
+  html, body {
+    max-width: 100%;
+    overflow-x: hidden;
+  }
+
   body {
     @apply bg-surface text-on-surface font-sans;
   }
