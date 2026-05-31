@@ -169,7 +169,7 @@ export default function AddRecipeModal({ onClose, onAdd, recipe, darkMode = fals
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
                   placeholder={t("Recipe Title (e.g. Soto Ayam)")}
-                  className="w-full h-14 px-5 rounded-2xl border-none focus:ring-2 focus:ring-primary/20 outline-none font-bold text-on-surface bg-surface-container placeholder:text-on-surface-variant text-sm" 
+                  className="w-full h-14 px-5 rounded-2xl border-none focus:ring-2 focus:ring-primary/20 outline-none font-bold text-on-surface bg-surface-container placeholder:text-on-surface-variant text-base md:text-sm" 
                 />
                 
                 <textarea 
@@ -177,7 +177,7 @@ export default function AddRecipeModal({ onClose, onAdd, recipe, darkMode = fals
                   onChange={(e) => setDescription(e.target.value)}
                   placeholder={t("Description...")}
                   rows={3}
-                  className="w-full p-5 rounded-2xl border-none focus:ring-2 focus:ring-primary/20 outline-none font-medium text-on-surface bg-surface-container placeholder:text-on-surface-variant text-xs resize-none" 
+                  className="w-full p-5 rounded-2xl border-none focus:ring-2 focus:ring-primary/20 outline-none font-medium text-on-surface bg-surface-container placeholder:text-on-surface-variant text-base md:text-xs resize-none" 
                 />
 
                 <div className="flex gap-2">
@@ -187,7 +187,7 @@ export default function AddRecipeModal({ onClose, onAdd, recipe, darkMode = fals
                       value={prepTime}
                       onChange={(e) => setPrepTime(e.target.value)}
                       placeholder={t("Prep (e.g. 15 Mins)")}
-                      className="w-full h-11 pl-11 pr-4 rounded-xl border-none focus:ring-2 focus:ring-primary/20 outline-none font-medium bg-surface-container text-on-surface text-xs" 
+                      className="w-full h-11 pl-11 pr-4 rounded-xl border-none focus:ring-2 focus:ring-primary/20 outline-none font-medium bg-surface-container text-on-surface text-base md:text-xs" 
                     />
                   </div>
                   
@@ -197,7 +197,7 @@ export default function AddRecipeModal({ onClose, onAdd, recipe, darkMode = fals
                       value={region}
                       onChange={(e) => setRegion(e.target.value)}
                       placeholder={t("Region (e.g. Jakarta)")}
-                      className="w-full h-11 pl-11 pr-4 rounded-xl border-none focus:ring-2 focus:ring-primary/20 outline-none font-medium bg-surface-container text-on-surface text-xs" 
+                      className="w-full h-11 pl-11 pr-4 rounded-xl border-none focus:ring-2 focus:ring-primary/20 outline-none font-medium bg-surface-container text-on-surface text-base md:text-xs" 
                     />
                   </div>
                 </div>
@@ -208,7 +208,7 @@ export default function AddRecipeModal({ onClose, onAdd, recipe, darkMode = fals
                     <select 
                       value={difficulty}
                       onChange={(e: any) => setDifficulty(e.target.value)}
-                      className="w-full h-11 pl-11 pr-4 rounded-xl border-none focus:ring-2 focus:ring-primary/20 outline-none font-semibold bg-surface-container text-on-surface text-xs appearance-none"
+                      className="w-full h-11 pl-11 pr-4 rounded-xl border-none focus:ring-2 focus:ring-primary/20 outline-none font-semibold bg-surface-container text-on-surface text-base md:text-xs appearance-none"
                     >
                       <option value="Easy">{t("Easy")}</option>
                       <option value="Medium">{t("Medium")}</option>
@@ -221,7 +221,7 @@ export default function AddRecipeModal({ onClose, onAdd, recipe, darkMode = fals
                     <select 
                       value={category}
                       onChange={(e: any) => setCategory(e.target.value)}
-                      className="w-full h-11 pl-11 pr-4 rounded-xl border-none focus:ring-2 focus:ring-primary/20 outline-none font-semibold bg-surface-container text-on-surface text-xs appearance-none"
+                      className="w-full h-11 pl-11 pr-4 rounded-xl border-none focus:ring-2 focus:ring-primary/20 outline-none font-semibold bg-surface-container text-on-surface text-base md:text-xs appearance-none"
                     >
                       <option value="Appetizer">{t("Appetizer")}</option>
                       <option value="Main Course">{t("Main Course")}</option>
@@ -241,7 +241,7 @@ export default function AddRecipeModal({ onClose, onAdd, recipe, darkMode = fals
                       value={youtubeUrl}
                       onChange={(e) => setYoutubeUrl(e.target.value)}
                       placeholder={t("YouTube Link (e.g., https://youtube.com/watch?...)")}
-                      className="w-full h-11 pl-11 pr-4 rounded-xl border-none focus:ring-2 focus:ring-primary/20 outline-none font-medium bg-surface-container text-on-surface text-xs placeholder:text-on-surface-variant/70 text-left" 
+                      className="w-full h-11 pl-11 pr-4 rounded-xl border-none focus:ring-2 focus:ring-primary/20 outline-none font-medium bg-surface-container text-on-surface text-base md:text-xs placeholder:text-on-surface-variant/70 text-left" 
                     />
                   </div>
 
@@ -251,7 +251,7 @@ export default function AddRecipeModal({ onClose, onAdd, recipe, darkMode = fals
                       value={videoUrl}
                       onChange={(e) => setVideoUrl(e.target.value)}
                       placeholder={t("Direct Video Link (e.g., .mp4 URL)")}
-                      className="w-full h-11 pl-11 pr-4 rounded-xl border-none focus:ring-2 focus:ring-primary/20 outline-none font-medium bg-surface-container text-on-surface text-xs placeholder:text-on-surface-variant/70 text-left" 
+                      className="w-full h-11 pl-11 pr-4 rounded-xl border-none focus:ring-2 focus:ring-primary/20 outline-none font-medium bg-surface-container text-on-surface text-base md:text-xs placeholder:text-on-surface-variant/70 text-left" 
                     />
                   </div>
                 </div>
@@ -293,7 +293,7 @@ export default function AddRecipeModal({ onClose, onAdd, recipe, darkMode = fals
                     value={imageUrl}
                     onChange={(e) => setImageUrl(e.target.value)}
                     placeholder={t("Or paste image URL (e.g., https://...)")}
-                    className="w-full h-10 px-4 rounded-xl border-none focus:ring-2 focus:ring-primary/20 outline-none font-medium bg-surface-container text-on-surface text-xs placeholder:text-on-surface-variant/70 text-left" 
+                    className="w-full h-10 px-4 rounded-xl border-none focus:ring-2 focus:ring-primary/20 outline-none font-medium bg-surface-container text-on-surface text-base md:text-xs placeholder:text-on-surface-variant/70 text-left" 
                   />
                 </div>
 
@@ -336,13 +336,13 @@ export default function AddRecipeModal({ onClose, onAdd, recipe, darkMode = fals
                         value={ing.name}
                         onChange={(e) => updateIngredient(idx, "name", e.target.value)}
                         placeholder={t("Item (e.g. Garlic)")}
-                        className="flex-1 h-11 px-4 rounded-xl border-none focus:ring-2 focus:ring-primary/20 outline-none font-medium bg-surface-container text-on-surface text-xs" 
+                        className="flex-1 h-11 px-4 rounded-xl border-none focus:ring-2 focus:ring-primary/20 outline-none font-medium bg-surface-container text-on-surface text-base md:text-xs" 
                       />
                       <input 
                         value={ing.detail}
                         onChange={(e) => updateIngredient(idx, "detail", e.target.value)}
                         placeholder={t("Amount")}
-                        className="w-24 h-11 px-4 rounded-xl border-none focus:ring-2 focus:ring-primary/20 outline-none font-medium bg-surface-container text-on-surface text-xs" 
+                        className="w-24 h-11 px-4 rounded-xl border-none focus:ring-2 focus:ring-primary/20 outline-none font-medium bg-surface-container text-on-surface text-base md:text-xs" 
                       />
                     </div>
                   ))}
@@ -366,7 +366,7 @@ export default function AddRecipeModal({ onClose, onAdd, recipe, darkMode = fals
                         onChange={(e) => updateInstruction(idx, e.target.value)}
                         placeholder={t("Describe the process...")}
                         rows={3}
-                        className="w-full p-4 rounded-2xl border-none focus:ring-2 focus:ring-primary/20 outline-none font-medium bg-surface-container text-on-surface text-xs resize-none" 
+                        className="w-full p-4 rounded-2xl border-none focus:ring-2 focus:ring-primary/20 outline-none font-medium bg-surface-container text-on-surface text-base md:text-xs resize-none" 
                       />
                     </div>
                   ))}

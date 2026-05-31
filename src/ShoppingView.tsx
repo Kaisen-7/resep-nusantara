@@ -198,7 +198,7 @@ export default function ShoppingView({
             value={newItemName}
             onChange={(e) => setNewItemName(e.target.value)}
             placeholder={t("Add custom item...")}
-            className="flex-1 px-4 py-2 bg-transparent outline-none font-medium text-on-surface placeholder:text-on-surface-variant text-sm"
+            className="flex-1 px-4 py-2 bg-transparent outline-none font-medium text-on-surface placeholder:text-on-surface-variant text-base md:text-sm"
           />
           <button 
             type="submit"

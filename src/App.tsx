@@ -426,7 +426,7 @@ export default function App() {
                         if (currentView !== "home") setCurrentView("home");
                       }}
                       placeholder={t("Search recipes, ingredients, regions...")}
-                      className="w-full h-11 pl-12 pr-4 bg-surface-container-high rounded-xl outline-none focus:ring-2 focus:ring-primary/20 text-sm text-on-surface placeholder:text-on-surface-variant/70"
+                      className="w-full h-11 pl-12 pr-4 bg-surface-container-high rounded-xl outline-none focus:ring-2 focus:ring-primary/20 text-base md:text-sm text-on-surface placeholder:text-on-surface-variant/70"
                     />
                     {searchQuery && (
                       <button 

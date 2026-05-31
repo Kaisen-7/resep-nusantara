@@ -178,7 +178,7 @@ export default function AIChatbot({ isOpen, onClose, isBottomBarVisible = true }
                   onChange={(e) => setInput(e.target.value)}
                   onKeyDown={(e) => e.key === "Enter" && handleSend()}
                   placeholder={t("Ask about Satay, Rendang, or Sambal...")}
-                  className="flex-1 h-12 bg-surface-container rounded-full px-6 text-sm outline-none focus:ring-2 focus:ring-primary/20 placeholder:text-on-surface-variant font-medium"
+                  className="flex-1 h-12 bg-surface-container rounded-full px-6 text-base md:text-sm outline-none focus:ring-2 focus:ring-primary/20 placeholder:text-on-surface-variant font-medium"
                 />
                 <button 
                   onClick={handleSend}

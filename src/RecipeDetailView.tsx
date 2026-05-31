@@ -988,7 +988,7 @@ export default function RecipeDetailView({
                 placeholder="Search ingredients..."
                 value={ingredientSearch}
                 onChange={(e) => setIngredientSearch(e.target.value)}
-                className="w-full bg-surface-container-highest border-none rounded-full pl-11 pr-12 py-3 text-sm focus:ring-2 focus:ring-primary/20 outline-none transition-all placeholder:text-outline-variant"
+                className="w-full bg-surface-container-highest border-none rounded-full pl-11 pr-12 py-3 text-base md:text-sm focus:ring-2 focus:ring-primary/20 outline-none transition-all placeholder:text-outline-variant"
                 aria-label="Search ingredients"
               />
               {ingredientSearch && (
@@ -1304,7 +1304,7 @@ export default function RecipeDetailView({
                   </button>
                 ) : (
                   <input 
-                    className={`w-full bg-surface-container-high border-none rounded-full px-6 py-4 focus:ring-2 focus:ring-primary/20 text-on-surface placeholder:text-on-surface-variant outline-none transition-all ${newComment.length >= COMMENT_LIMIT ? 'ring-2 ring-secondary/20' : ''}`}
+                    className={`w-full bg-surface-container-high border-none rounded-full px-6 py-4 focus:ring-2 focus:ring-primary/20 text-on-surface placeholder:text-on-surface-variant text-base outline-none transition-all ${newComment.length >= COMMENT_LIMIT ? 'ring-2 ring-secondary/20' : ''}`}
                     id="comment" 
                     placeholder={t("Share your cooking experience...")} 
                     type="text"
