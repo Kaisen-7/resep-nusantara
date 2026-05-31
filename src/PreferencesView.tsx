@@ -62,18 +62,18 @@ export default function PreferencesView({ initialPreferences, onApply, onCancel 
       exit={{ opacity: 0, scale: 0.98 }}
       className="max-w-2xl mx-auto space-y-10"
     >
-      <header className="flex items-center gap-6 mb-12">
-        <div className="w-16 h-16 rounded-2xl flex items-center justify-center bg-primary/10">
-          <Settings className="w-8 h-8 text-primary" />
+      <header className="flex items-center gap-4 sm:gap-6 mb-8 sm:mb-12">
+        <div className="w-12 h-12 sm:w-16 sm:h-16 rounded-2xl flex items-center justify-center bg-primary/10 shrink-0">
+          <Settings className="w-6 h-6 sm:w-8 sm:h-8 text-primary" />
         </div>
-        <div>
-          <h2 className="text-3xl font-black text-on-surface">{t("Preferences")}</h2>
-          <p className="text-on-surface-variant font-medium">{t("Personalize your culinary experience")}</p>
+        <div className="min-w-0">
+          <h2 className="text-2xl sm:text-3xl font-black text-on-surface truncate">{t("Preferences")}</h2>
+          <p className="text-xs sm:text-sm text-on-surface-variant font-medium truncate">{t("Personalize your culinary experience")}</p>
         </div>
       </header>
 
       <section className="space-y-8">
-        <div className="p-8 rounded-4xl border shadow-sm space-y-6 bg-surface-container-low border-outline-variant/10">
+        <div className="p-5 sm:p-8 rounded-[2rem] sm:rounded-4xl border shadow-sm space-y-6 bg-surface-container-low border-outline-variant/10">
           <h3 className="text-sm font-bold uppercase tracking-[0.2em] text-outline">{t("Application")}</h3>
           
           {/* Appearance Toggle */}
@@ -180,17 +180,17 @@ export default function PreferencesView({ initialPreferences, onApply, onCancel 
 
       </section>
 
-      <div className="flex gap-4">
+      <div className="flex flex-col sm:flex-row gap-4">
         <button 
           onClick={handleApply}
-          className="flex-1 py-4 bg-primary text-white rounded-2xl font-black shadow-lg shadow-primary/20 transition-all active:scale-95 flex items-center justify-center gap-3"
+          className="flex-1 py-4 bg-primary text-white rounded-2xl font-black shadow-lg shadow-primary/20 transition-all active:scale-95 flex items-center justify-center gap-3 order-1 sm:order-2"
         >
           <Save className="w-5 h-5" />
           {t("Apply Changes")}
         </button>
         <button 
           onClick={onCancel}
-          className="px-8 py-4 rounded-2xl font-bold transition-all active:scale-95 bg-surface-container-high text-on-surface-variant hover:bg-surface-container-highest"
+          className="w-full sm:w-auto px-8 py-4 rounded-2xl font-bold transition-all active:scale-95 bg-surface-container-high text-on-surface-variant hover:bg-surface-container-highest order-2 sm:order-1"
         >
           {t("Cancel")}
         </button>

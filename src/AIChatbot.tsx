@@ -99,7 +99,7 @@ export default function AIChatbot({ isOpen, onClose, isBottomBarVisible = true }
             className={`fixed ${isBottomBarVisible ? "bottom-24" : "bottom-6"} md:bottom-8 right-6 w-[calc(100%-3rem)] md:w-[450px] h-[500px] md:h-[600px] max-h-[calc(100vh-${isBottomBarVisible ? "8.5rem" : "4.5rem"})] bg-surface-container-lowest rounded-[2.5rem] shadow-2xl z-100 border border-outline-variant/10 flex flex-col overflow-hidden`}
           >
             {/* Header */}
-            <div className="p-6 bg-primary text-on-primary flex justify-between items-center bg-linear-to-br from-primary to-primary-container">
+            <div className="p-4 md:p-6 bg-primary text-on-primary flex justify-between items-center bg-linear-to-br from-primary to-primary-container">
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center">
                   <Sparkles className="w-6 h-6 text-white" />
@@ -121,7 +121,7 @@ export default function AIChatbot({ isOpen, onClose, isBottomBarVisible = true }
             </div>
 
             {/* Messages */}
-            <div className="flex-1 overflow-y-auto p-6 space-y-6 no-scrollbar bg-surface/50">
+            <div className="flex-1 overflow-y-auto p-4 md:p-6 space-y-4 md:space-y-6 no-scrollbar bg-surface/50">
               {messages.map((msg, idx) => (
                 <div 
                   key={idx}
@@ -133,10 +133,10 @@ export default function AIChatbot({ isOpen, onClose, isBottomBarVisible = true }
                     </div>
                   )}
                   <div 
-                    className={`max-w-[85%] rounded-2xl px-5 py-3.5 text-sm font-medium shadow-sm leading-relaxed ${
+                    className={`max-w-[85%] rounded-2xl px-4 py-2.5 md:px-5 md:py-3.5 text-sm font-medium shadow-sm leading-relaxed ${
                       msg.role === "user" 
                         ? "bg-primary text-on-primary rounded-tr-none" 
-                        : "bg-white text-on-surface rounded-tl-none border border-outline-variant/10"
+                        : "bg-white dark:bg-surface-container-high text-on-surface rounded-tl-none border border-outline-variant/10"
                     }`}
                   >
                     <div className="markdown-content">
@@ -159,7 +159,7 @@ export default function AIChatbot({ isOpen, onClose, isBottomBarVisible = true }
                   <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center shrink-0 animate-pulse">
                     <Sparkles className="w-4 h-4 text-primary" />
                   </div>
-                  <div className="bg-white px-4 py-3 rounded-2xl flex gap-1 border border-outline-variant/10">
+                  <div className="bg-white dark:bg-surface-container-high px-4 py-3 rounded-2xl flex gap-1 border border-outline-variant/10">
                     <span className="w-1.5 h-1.5 bg-primary/40 rounded-full animate-bounce [animation-delay:-0.3s]" />
                     <span className="w-1.5 h-1.5 bg-primary/40 rounded-full animate-bounce [animation-delay:-0.15s]" />
                     <span className="w-1.5 h-1.5 bg-primary/40 rounded-full animate-bounce" />
@@ -170,7 +170,7 @@ export default function AIChatbot({ isOpen, onClose, isBottomBarVisible = true }
             </div>
 
             {/* Input */}
-            <div className="p-6 bg-white border-t border-outline-variant/10">
+            <div className="p-4 md:p-6 bg-white dark:bg-surface-container-lowest border-t border-outline-variant/10">
               <div className="relative flex items-center gap-2">
                 <input 
                   type="text"

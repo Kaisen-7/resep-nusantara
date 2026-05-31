@@ -852,7 +852,7 @@ export default function RecipeDetailView({
             </span>
           </div>
 
-      <div className="flex items-center gap-3 md:gap-4 mb-8 text-on-surface-variant overflow-x-auto no-scrollbar pb-2 no-print">
+      <div className="flex flex-wrap items-center gap-3 md:gap-4 mb-8 text-on-surface-variant no-print">
         <div className="flex items-center gap-3 bg-surface-container-low px-4 py-2.5 rounded-2xl border border-outline-variant/10 min-w-[120px] md:min-w-[145px]">
           <Clock className="w-4 h-4 text-primary shrink-0" />
           <div className="flex flex-col">
@@ -1106,8 +1106,8 @@ export default function RecipeDetailView({
         </section>
           </div>
           <div className="lg:col-span-7 space-y-8">
-        <section className="px-6 py-8">
-          <h3 className="text-2xl font-bold text-on-surface mb-8">Instructions</h3>
+            <section className="py-8 px-6 bg-surface-container-low rounded-xl">
+          <h3 className="text-2xl font-bold text-on-surface mb-8">{t("Cooking Steps")}</h3>
           <div className="space-y-10">
             {recipe.instructions.map((step, i) => (
               <motion.div 
@@ -1129,9 +1129,12 @@ export default function RecipeDetailView({
             ))}
           </div>
         </section>
+          </div>
+        </div>
 
-            <section className="py-12 bg-surface border-t border-outline-variant/10 no-print">
-              <div className="flex flex-col md:flex-row md:items-center justify-between mb-8 gap-4">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6">
+          <section className="py-12 px-4 md:px-6 bg-surface border-t border-outline-variant/10 no-print">
+            <div className="flex flex-col md:flex-row md:items-center justify-between mb-8 gap-4">
                 <h3 className="text-2xl font-bold text-on-surface">{t("Chef Discussion")}</h3>
                 <div className="flex items-center gap-2 bg-surface-container p-1 rounded-full border border-outline-variant/20 overflow-x-auto no-scrollbar max-w-full" role="radiogroup" aria-label="Sort comments">
               <button 
@@ -1327,7 +1330,6 @@ export default function RecipeDetailView({
             </div>
           </div>
         </section>
-        </div>
         </div>
       </main>
       {activeTimerMinutes !== null && (

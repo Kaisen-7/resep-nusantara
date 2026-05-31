@@ -166,17 +166,18 @@ export default function ShoppingView({
         </AnimatePresence>
       </div>
 
-      <header className="flex items-center justify-between mb-8">
+      <header className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
         <div className="flex items-center gap-4">
           <button 
             onClick={onBack}
-            className="p-2 rounded-full transition-colors hover:bg-surface-container-high text-on-surface"
+            className="p-2 rounded-full transition-colors hover:bg-surface-container-high text-on-surface shrink-0"
+            aria-label="Go back"
           >
             <ChevronLeft className="w-6 h-6" />
           </button>
-          <div>
-            <h2 className="text-3xl font-black text-on-surface">{t("Market List")}</h2>
-            <p className="text-sm font-medium text-on-surface-variant">
+          <div className="min-w-0">
+            <h2 className="text-2xl sm:text-3xl font-black text-on-surface truncate">{t("Market List")}</h2>
+            <p className="text-xs sm:text-sm font-medium text-on-surface-variant">
               {items.length} {t("items to pick up")}
             </p>
           </div>
@@ -184,7 +185,7 @@ export default function ShoppingView({
         {checkedCount > 0 && (
           <button 
             onClick={onClearChecked}
-            className="flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 text-primary text-xs font-bold hover:bg-primary/20 transition-all active:scale-95"
+            className="w-full sm:w-auto flex items-center justify-center gap-2 px-6 py-2.5 rounded-full bg-primary/10 text-primary text-xs font-bold hover:bg-primary/20 transition-all active:scale-95 shrink-0"
           >
             {t("Clear Checked")}
           </button>

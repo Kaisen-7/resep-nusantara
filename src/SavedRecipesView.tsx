@@ -45,7 +45,7 @@ export default function SavedRecipesView({
       </header>
 
       {savedRecipes.length > 0 ? (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
           {savedRecipes.map((recipe) => (
             <motion.article 
               key={recipe.id}
@@ -61,7 +61,7 @@ export default function SavedRecipesView({
                   <span className="bg-primary text-on-primary px-3 py-1 rounded-md text-[10px] font-bold uppercase tracking-wider">
                     {t(recipe.category)}
                   </span>
-                  <span className="bg-white/90 backdrop-blur-md text-on-surface px-3 py-1 rounded-md text-[10px] font-bold uppercase tracking-wider">
+                  <span className="bg-white/90 dark:bg-black/60 backdrop-blur-md text-on-surface px-3 py-1 rounded-md text-[10px] font-bold uppercase tracking-wider">
                     {recipe.region}
                   </span>
                   {recipe.spicy && (

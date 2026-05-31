@@ -360,9 +360,8 @@ export default function App() {
         {currentView !== "detail" && (
           <header className="sticky top-0 z-40 backdrop-blur-xl border-b bg-surface/70 border-outline-variant/10">
             <div className="flex justify-between items-center px-6 h-16">
-              <h1 className="text-xl font-black text-on-surface md:hidden">Nusa Culinary</h1>
-              <h1 className="text-xl font-black text-on-surface hidden md:block capitalize">
-                {currentView === "home" ? t("Explore") : 
+              <h1 className="text-xl font-black text-on-surface capitalize">
+                {currentView === "home" ? "Nusa Culinary" : 
                  currentView === "saved" ? t("Saved Collection") :
                  currentView === "my-recipes" ? t("My Shared Recipes") :
                  currentView === "shopping" ? t("Market List") :

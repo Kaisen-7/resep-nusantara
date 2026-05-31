@@ -180,14 +180,16 @@ export default function ProfileView({
       )}
 
       {/* Stats Cards */}
-      <section className={`grid ${isPublicView ? 'grid-cols-1 max-w-xs mx-auto' : 'grid-cols-3'} gap-4 mb-10`}>
+      <section className={`grid ${isPublicView ? 'grid-cols-1 max-w-xs mx-auto' : 'grid-cols-1 sm:grid-cols-3'} gap-4 mb-10`}>
         {stats.map((stat) => (
-          <div key={stat.label} className="bg-surface-container-low p-4 rounded-3xl border border-outline-variant/10 text-center flex flex-col items-center shadow-sm">
-            <div className={`w-10 h-10 ${stat.bg} ${stat.color} rounded-xl flex items-center justify-center mb-2`}>
-              <stat.icon className="w-5 h-5" />
+          <div key={stat.label} className="bg-surface-container-low p-4 sm:p-5 rounded-3xl border border-outline-variant/10 flex flex-row sm:flex-col items-center gap-4 sm:gap-2 text-left sm:text-center shadow-sm w-full">
+            <div className={`w-12 h-12 ${stat.bg} ${stat.color} rounded-2xl flex items-center justify-center shrink-0`}>
+              <stat.icon className="w-6 h-6" />
             </div>
-            <span className="text-xl font-black text-on-surface">{stat.value}</span>
-            <span className="text-[10px] font-bold uppercase tracking-wider text-outline">{stat.label}</span>
+            <div className="flex flex-col sm:items-center min-w-0 flex-1">
+              <span className="text-2xl font-black text-on-surface leading-none">{stat.value}</span>
+              <span className="text-[10px] font-bold uppercase tracking-wider text-outline mt-1 truncate w-full">{stat.label}</span>
+            </div>
           </div>
         ))}
       </section>
@@ -197,7 +199,7 @@ export default function ProfileView({
         <section className="mt-10 border-t border-outline-variant/10 pt-8 text-left">
           <h3 className="text-xl font-black text-on-surface mb-6 ml-2">{t("My Shared Recipes")}</h3>
           {targetRecipes.length > 0 ? (
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
               {targetRecipes.map((recipe) => (
                 <article
                   key={recipe.id}
