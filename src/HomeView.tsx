@@ -21,15 +21,15 @@ interface HomeViewProps {
   isLoading?: boolean;
 }
 
-export default function HomeView({ 
-  onRecipeClick, 
-  savedIds, 
-  onToggleSave, 
+export default function HomeView({
+  onRecipeClick,
+  savedIds,
+  onToggleSave,
   initialCategory = "All",
   dietaryPreference = "None",
   recipes = [],
   searchQuery = "",
-  onSearchChange = () => {},
+  onSearchChange = () => { },
   isLoading = false
 }: HomeViewProps) {
   const { t, language } = useLanguage();
@@ -39,17 +39,16 @@ export default function HomeView({
 
   const regions = ["All", "Sumatra", "Jawa", "Bali", "Sulawesi", "Kalimantan", "Papua"];
   const categories = ["All", "Appetizer", "Main Course", "Dessert", "Drink"];
-  
+
   useEffect(() => {
     if (initialCategory && categories.includes(initialCategory as any)) {
       setActiveCategory(initialCategory);
     } else if (initialCategory && regions.includes(initialCategory)) {
-       setActiveRegion(initialCategory);
-       setActiveCategory("All");
+      setActiveRegion(initialCategory);
+      setActiveCategory("All");
     }
   }, [initialCategory]);
 
-  // Dynamic greeting based on time
   const getGreeting = () => {
     const hour = new Date().getHours();
     if (language === "id") {
@@ -71,28 +70,30 @@ export default function HomeView({
     return recipes.filter(recipe => {
       const matchesRegion = activeRegion === "All" || recipe.region === activeRegion;
       const matchesCategory = activeCategory === "All" || recipe.category === activeCategory;
-      const matchesSearch = recipe.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                          recipe.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                          recipe.region.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                          recipe.category.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                          recipe.ingredients.some(ing => ing.name.toLowerCase().includes(searchQuery.toLowerCase()));
-      
-      // Quick filter logic
+      const matchesSearch =
+        recipe.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        recipe.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        recipe.region.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        recipe.category.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        recipe.ingredients.some(ing => ing.name.toLowerCase().includes(searchQuery.toLowerCase()));
+
       let matchesQuick = true;
       if (quickFilter === "trending") matchesQuick = (recipe.ratingCount || 0) > 100;
       if (quickFilter === "top-rated") matchesQuick = (recipe.rating || 0) >= 4.5;
       if (quickFilter === "spicy") matchesQuick = recipe.spicy === true;
 
-      // Dietary filtering
       let matchesDiet = true;
       if (dietaryPreference === "Vegetarian" || dietaryPreference === "Vegan") {
         const nonVegKeywords = ['chicken', 'beef', 'meat', 'fish', 'prawn', 'lamb', 'egg'];
-        matchesDiet = !recipe.ingredients.some(ing => 
-          nonVegKeywords.some(kw => ing.name.toLowerCase().includes(kw))
-        ) && !recipe.title.toLowerCase().includes('meat') && !recipe.title.toLowerCase().includes('chicken') && !recipe.title.toLowerCase().includes('beef') && recipe.category !== "Main Course";
+        matchesDiet =
+          !recipe.ingredients.some(ing => nonVegKeywords.some(kw => ing.name.toLowerCase().includes(kw))) &&
+          !recipe.title.toLowerCase().includes('meat') &&
+          !recipe.title.toLowerCase().includes('chicken') &&
+          !recipe.title.toLowerCase().includes('beef') &&
+          recipe.category !== "Main Course";
       } else if (dietaryPreference === "Halal") {
         const nonHalalKeywords = ['pork', 'lard', 'alcohol', 'wine', 'mirin'];
-        matchesDiet = !recipe.ingredients.some(ing => 
+        matchesDiet = !recipe.ingredients.some(ing =>
           nonHalalKeywords.some(kw => ing.name.toLowerCase().includes(kw))
         );
       }
@@ -101,39 +102,45 @@ export default function HomeView({
     });
   }, [activeRegion, activeCategory, searchQuery, dietaryPreference, recipes, quickFilter]);
 
-  // Difficulty badge color
   const getDiffClass = (diff: string) => {
     if (diff === "Easy") return "diff-easy";
     if (diff === "Medium") return "diff-medium";
     return "diff-hard";
   };
 
-  // Skeleton Cards
   const SkeletonCard = () => (
-    <div className="bg-surface-container-lowest rounded-xl overflow-hidden">
-      <div className="skeleton h-60 w-full rounded-none" />
-      <div className="p-6 space-y-3">
-        <div className="skeleton h-5 w-3/4" />
-        <div className="skeleton h-4 w-1/2" />
-        <div className="flex gap-4 pt-2">
-          <div className="skeleton h-4 w-20" />
-          <div className="skeleton h-4 w-16" />
+    <div className="bg-surface-container-lowest rounded-2xl overflow-hidden">
+      <div className="skeleton h-44 w-full rounded-none" />
+      <div className="p-3 space-y-2.5">
+        <div className="skeleton h-4 w-3/4" />
+        <div className="skeleton h-3 w-1/2" />
+        <div className="flex gap-3 pt-1">
+          <div className="skeleton h-3 w-16" />
+          <div className="skeleton h-3 w-12" />
         </div>
       </div>
     </div>
   );
 
   return (
-    <motion.div 
+    <motion.div
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -10 }}
+      /* safe-area bottom so content clears the fixed bottom nav */
+      className="pb-[env(safe-area-inset-bottom,0px)]"
     >
-      <header className="mb-8 pt-4">
-        <p className="text-on-surface-variant font-medium tracking-tight">{greeting.emoji} {greeting.text}, {language === "id" ? "Pencinta Kuliner!" : "Foodie!"}</p>
-        <h2 className="text-3xl font-extrabold text-on-surface tracking-tighter leading-tight mt-1">{t("Ready for a spice adventure?")}</h2>
+      {/* ── Header ── */}
+      <header className="mb-4 sm:mb-6 pt-2 sm:pt-4">
+        <p className="text-on-surface-variant font-medium tracking-tight text-xs sm:text-sm">
+          {greeting.emoji} {greeting.text},{" "}
+          {language === "id" ? "Pencinta Kuliner!" : "Foodie!"}
+        </p>
+        <h2 className="text-xl sm:text-3xl font-extrabold text-on-surface tracking-tighter leading-tight mt-0.5">
+          {t("Ready for a spice adventure?")}
+        </h2>
         {!isLoading && recipes.length > 0 && (
-          <div className="flex flex-wrap items-center gap-x-3 gap-y-1.5 mt-3 text-xs font-bold text-outline uppercase tracking-wider">
+          <div className="flex flex-wrap items-center gap-x-2 gap-y-1 mt-1.5 sm:mt-3 text-[9px] sm:text-xs font-bold text-outline uppercase tracking-wider">
             <span>{recipes.length} {t("Recipes")}</span>
             <span className="w-1 h-1 rounded-full bg-outline" />
             <span>{new Set(recipes.map(r => r.region)).size} {t("Regions")}</span>
@@ -143,174 +150,220 @@ export default function HomeView({
         )}
       </header>
 
-      {/* Quick Filter Chips */}
-      <div className="flex items-center gap-2 mb-8 overflow-x-auto no-scrollbar -mx-4 px-4 sm:-mx-6 sm:px-6 pb-1">
+      {/* ── Quick Filter Chips ──
+           Key fix: negative margin pulls chips flush to screen edge so
+           they scroll properly and don't appear clipped. */}
+      <div className="flex flex-wrap items-center gap-1.5 mb-4 sm:mb-6  no-scrollbar -mx-4 px-4 sm:-mx-6 sm:px-6 pb-0.5 scroll-smooth">
         {[
-          { key: "all" as const, label: "All Recipes", icon: ChefHat },
-          { key: "trending" as const, label: "🔥 Trending", icon: TrendingUp },
-          { key: "top-rated" as const, label: "⭐ Top Rated", icon: Sparkles },
-          { key: "spicy" as const, label: "🌶️ Spicy", icon: Flame },
+          { key: "all" as const, label: "All Recipes" },
+          { key: "trending" as const, label: "🔥 Trending" },
+          { key: "top-rated" as const, label: "⭐ Top Rated" },
+          { key: "spicy" as const, label: "🌶️ Spicy" },
         ].map(chip => (
           <button
             key={chip.key}
             onClick={() => setQuickFilter(chip.key)}
-            className={`flex items-center gap-1.5 px-5 py-2.5 rounded-full text-xs font-bold whitespace-nowrap transition-all active:scale-95 ${
-              quickFilter === chip.key 
-                ? 'bg-primary text-white shadow-lg shadow-primary/20' 
-                : 'bg-surface-container-lowest text-on-surface-variant hover:bg-surface-container-high border border-outline-variant/10'
-            }`}
+            className={`flex-shrink-0 px-3.5 sm:px-5 py-2 sm:py-2.5 rounded-full text-[10px] sm:text-xs font-bold whitespace-nowrap transition-all active:scale-95 ${quickFilter === chip.key
+              ? "bg-primary text-white shadow-md shadow-primary/20"
+              : "bg-surface-container-lowest text-on-surface-variant hover:bg-surface-container-high border border-outline-variant/15"
+              }`}
           >
             {t(chip.label)}
           </button>
         ))}
       </div>
 
-      <div className="space-y-8">
+      {/* ── Filters ── */}
+      <div className="space-y-4 sm:space-y-6">
+        {/* Category */}
         <div>
-          <div className="mb-4 flex items-center justify-between">
-            <h3 className="text-xs font-bold uppercase tracking-[0.2em] text-outline">{t("Filter by Course")}</h3>
+          <div className="mb-2 sm:mb-3 flex items-center justify-between">
+            <h3 className="text-[9px] sm:text-[10px] font-bold uppercase tracking-[0.18em] text-outline">
+              {t("Filter by Course")}
+            </h3>
             {activeCategory !== "All" && (
-              <button 
+              <button
                 onClick={() => setActiveCategory("All")}
-                className="text-[10px] font-bold text-primary uppercase tracking-wider"
+                className="text-[9px] font-bold text-primary uppercase tracking-wider"
               >
-                {t("Clear Category")}
+                {t("Clear")}
               </button>
             )}
           </div>
-          <section className="-mx-4 px-4 sm:-mx-6 sm:px-6 overflow-x-auto no-scrollbar flex items-center gap-3 pb-2">
-            {categories.map((cat) => (
-              <button 
+          {/* flex-shrink-0 on each pill keeps long translated labels from wrapping */}
+          <div className="-mx-4 px-4 sm:-mx-6 sm:px-6 no-scrollbar flex flex-wrap items-center gap-2 pb-1 scroll-smooth">
+            {categories.map(cat => (
+              <button
                 key={cat}
                 onClick={() => setActiveCategory(cat)}
-                className={`px-6 py-2.5 rounded-full font-bold text-sm transition-all shadow-sm whitespace-nowrap active:scale-95 ${activeCategory === cat ? 'bg-primary text-white shadow-lg shadow-primary/20' : 'bg-surface-container-low text-on-surface-variant hover:bg-surface-container-high'}`}
+                className={`flex-shrink-0 px-3.5 sm:px-5 py-1.5 sm:py-2 rounded-full font-bold text-[10px] sm:text-sm transition-all shadow-sm whitespace-nowrap active:scale-95 ${activeCategory === cat
+                  ? "bg-primary text-white shadow-md shadow-primary/20"
+                  : "bg-surface-container-low text-on-surface-variant hover:bg-surface-container-high"
+                  }`}
               >
                 {t(cat)}
               </button>
             ))}
-          </section>
+          </div>
         </div>
 
+        {/* Region */}
         <div>
-          <div className="mb-4 flex items-center justify-between">
-            <h3 className="text-xs font-bold uppercase tracking-[0.2em] text-outline">{t("Filter by Region")}</h3>
+          <div className="mb-2 sm:mb-3 flex items-center justify-between">
+            <h3 className="text-[9px] sm:text-[10px] font-bold uppercase tracking-[0.18em] text-outline">
+              {t("Filter by Region")}
+            </h3>
             {activeRegion !== "All" && (
-              <button 
+              <button
                 onClick={() => setActiveRegion("All")}
-                className="text-[10px] font-bold text-primary uppercase tracking-wider"
+                className="text-[9px] font-bold text-primary uppercase tracking-wider"
               >
-                {t("Clear Region")}
+                {t("Clear")}
               </button>
             )}
           </div>
-          <section className="-mx-4 px-4 sm:-mx-6 sm:px-6 overflow-x-auto no-scrollbar flex items-center gap-3 pb-2">
-            {regions.map((region) => (
-              <button 
+          <div className="-mx-4 px-4 sm:-mx-6 sm:px-6 flex-wrap no-scrollbar flex items-center gap-2 pb-1 scroll-smooth">
+            {regions.map(region => (
+              <button
                 key={region}
                 onClick={() => setActiveRegion(region)}
-                className={`px-6 py-2.5 rounded-full font-bold text-sm transition-all shadow-sm whitespace-nowrap active:scale-95 ${activeRegion === region ? 'bg-secondary text-white shadow-lg shadow-secondary/20' : 'bg-surface-container-low text-on-surface-variant hover:bg-surface-container-high'}`}
+                className={`flex-shrink-0 px-3.5 sm:px-5 py-1.5 sm:py-2 rounded-full font-bold text-[10px] sm:text-sm transition-all shadow-sm whitespace-nowrap active:scale-95 ${activeRegion === region
+                  ? "bg-secondary text-white shadow-md shadow-secondary/20"
+                  : "bg-surface-container-low text-on-surface-variant hover:bg-surface-container-high"
+                  }`}
               >
                 {t(region)}
               </button>
             ))}
-          </section>
+          </div>
         </div>
       </div>
 
-      <section className="space-y-6 mt-10">
-        <div className="flex justify-between items-end">
-          <h3 className="text-xl font-bold tracking-tight">
-            {quickFilter === "trending" ? t("🔥 Trending Now") : 
-             quickFilter === "top-rated" ? t("⭐ Top Rated") : 
-             quickFilter === "spicy" ? t("🌶️ Spicy Collection") : 
-             t("Today's Signature Dishes")}
+      {/* ── Recipe Grid ── */}
+      <section className="space-y-3 sm:space-y-5 mt-6 sm:mt-8">
+        <div className="flex justify-between items-center">
+          <h3 className="text-sm sm:text-xl font-bold tracking-tight">
+            {quickFilter === "trending" ? t("🔥 Trending Now") :
+              quickFilter === "top-rated" ? t("⭐ Top Rated") :
+                quickFilter === "spicy" ? t("🌶️ Spicy Collection") :
+                  t("Today's Signature Dishes")}
           </h3>
-          <button 
+          <button
             onClick={() => {
               setActiveRegion("All");
               setActiveCategory("All");
               setQuickFilter("all");
               onSearchChange("");
             }}
-            className="text-sm font-bold text-primary hover:underline"
+            className="text-[10px] sm:text-sm font-bold text-primary hover:underline shrink-0 ml-2"
           >
             {t("Reset All")}
           </button>
         </div>
 
         {isLoading ? (
-          /* Skeleton Loading Cards */
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+          /* 2-col skeleton on mobile, 3-col on lg */
+          <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-5 md:gap-7">
             {[...Array(6)].map((_, i) => <SkeletonCard key={i} />)}
           </div>
+
         ) : filteredRecipes.length > 0 ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+          /* 2-col on mobile keeps cards reasonably sized without overflow */
+          <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-5 md:gap-7">
             {filteredRecipes.map((recipe, idx) => {
               const isWide = idx === 0 && filteredRecipes.length > 3;
               const isSaved = savedIds.includes(recipe.id);
 
               return (
-                <motion.article 
+                <motion.article
                   key={recipe.id}
                   layout
                   layoutId={`recipe-${recipe.id}`}
                   onClick={() => onRecipeClick(recipe)}
-                  className={`group cursor-pointer bg-surface-container-lowest rounded-xl overflow-hidden transition-all duration-300 hover:shadow-[0_20px_40px_rgba(148,74,0,0.1)] flex flex-col ${isWide ? 'sm:col-span-2 lg:col-span-1 xl:col-span-2 sm:flex-row lg:flex-col xl:flex-row sm:h-[280px] lg:h-full xl:h-[280px] h-auto' : 'h-full'}`}
+                  className={`group cursor-pointer bg-surface-container-lowest rounded-2xl overflow-hidden transition-all duration-300 hover:shadow-[0_16px_32px_rgba(148,74,0,0.10)] flex flex-col ${isWide
+                    ? "col-span-2 sm:col-span-2 lg:col-span-1 xl:col-span-2 xl:flex-row xl:h-[260px]"
+                    : "h-full"
+                    }`}
                 >
-                  <div className={`relative overflow-hidden ${isWide ? 'w-full sm:w-1/2 lg:w-full xl:w-1/2 h-64 sm:h-full lg:h-64 xl:h-full' : 'h-60'}`}>
-                    <img src={recipe.image} alt={recipe.title} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
-                    <div className="absolute top-4 left-4 flex gap-2 flex-wrap">
-                      <span className="bg-primary text-on-primary px-3 py-1 rounded-md text-[10px] font-bold uppercase tracking-wider">
+                  {/* Image */}
+                  <div
+                    className={`relative overflow-hidden ${isWide
+                      ? "w-full xl:w-1/2 h-40 sm:h-52 xl:h-full"
+                      : "h-36 sm:h-52"
+                      }`}
+                  >
+                    <img
+                      src={recipe.image}
+                      alt={recipe.title}
+                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                    />
+
+                    {/* Badges — hide region badge on very small cards to avoid overlap */}
+                    <div className="absolute top-2 left-2 flex gap-1 flex-wrap max-w-[calc(100%-44px)]">
+                      <span className="bg-primary text-on-primary px-2 py-0.5 rounded text-[8px] sm:text-[10px] font-bold uppercase tracking-wide leading-tight">
                         {t(recipe.category)}
                       </span>
-                      <span className="bg-white/90 dark:bg-black/60 backdrop-blur-md text-on-surface px-3 py-1 rounded-md text-[10px] font-bold uppercase tracking-wider">
+                      <span className="hidden sm:inline-block bg-white/90 dark:bg-black/60 backdrop-blur-md text-on-surface px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wide">
                         {t(recipe.region)}
                       </span>
                       {recipe.spicy && (
-                        <span className="bg-red-500/90 text-white px-2 py-1 rounded-md text-[10px] font-bold flex items-center gap-1">
+                        <span className="bg-red-500/90 text-white px-1.5 py-0.5 rounded text-[9px] font-bold">
                           🌶️
                         </span>
                       )}
                     </div>
-                    <button 
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        onToggleSave(recipe.id);
-                      }}
-                      className="absolute top-4 right-4 bg-white/20 backdrop-blur-xl w-10 h-10 rounded-full flex items-center justify-center text-white transition-all active:scale-90"
+
+                    {/* Save button — smaller on mobile */}
+                    <button
+                      onClick={e => { e.stopPropagation(); onToggleSave(recipe.id); }}
+                      className="absolute top-2 right-2 bg-white/20 backdrop-blur-xl w-8 h-8 sm:w-9 sm:h-9 rounded-full flex items-center justify-center text-white transition-all active:scale-90"
                     >
-                      <Bookmark className={`w-5 h-5 ${isSaved ? 'fill-white' : ''}`} />
+                      <Bookmark className={`w-3.5 h-3.5 sm:w-4 sm:h-4 ${isSaved ? "fill-white" : ""}`} />
                     </button>
-                    {/* Rating badge */}
+
+                    {/* Rating */}
                     {recipe.rating && recipe.rating > 0 && (
-                      <div className="absolute bottom-4 left-4 flex items-center gap-1.5 bg-black/50 backdrop-blur-md text-white px-3 py-1.5 rounded-full">
-                        <Star className="w-3.5 h-3.5 fill-yellow-400 text-yellow-400" />
-                        <span className="text-xs font-bold">{recipe.rating}</span>
-                        <span className="text-[10px] opacity-70">({recipe.ratingCount})</span>
+                      <div className="absolute bottom-2 left-2 flex items-center gap-1 bg-black/50 backdrop-blur-md text-white px-2 py-1 rounded-full">
+                        <Star className="w-2.5 h-2.5 sm:w-3 sm:h-3 fill-yellow-400 text-yellow-400" />
+                        <span className="text-[10px] font-bold">{recipe.rating}</span>
+                        {/* Hide count on tiny cards */}
+                        <span className="hidden sm:inline text-[9px] opacity-70">({recipe.ratingCount})</span>
                       </div>
                     )}
                   </div>
-                  <div className={`p-6 flex flex-col justify-between grow space-y-3 ${isWide ? 'w-full sm:w-1/2 lg:w-full xl:w-1/2' : ''}`}>
-                    <h4 className="text-xl font-bold leading-tight group-hover:text-primary transition-colors">
+
+                  {/* Card body */}
+                  <div
+                    className={`p-2.5 sm:p-4 flex flex-col justify-between grow space-y-1.5 sm:space-y-2 ${isWide ? "xl:w-1/2" : ""
+                      }`}
+                  >
+                    <h4 className="text-[11px] sm:text-base font-bold leading-snug group-hover:text-primary transition-colors line-clamp-2">
                       {recipe.title}
                     </h4>
-                    {(isWide || filteredRecipes.length === 1) && <p className="text-on-surface-variant text-sm line-clamp-2">{recipe.description}</p>}
-                    {recipe.authorName && (
-                      <p className="text-xs font-medium text-outline flex items-center gap-1.5">
-                        <ChefHat className="w-3 h-3" />
-                        {recipe.authorName}
+
+                    {(isWide || filteredRecipes.length === 1) && (
+                      <p className="text-on-surface-variant text-[10px] sm:text-sm line-clamp-2">
+                        {recipe.description}
                       </p>
                     )}
-                    <div className="flex items-center gap-3 text-on-surface-variant text-sm pt-1 flex-wrap">
-                      <div className="flex items-center gap-1.5">
-                        <Clock className="w-4 h-4" />
-                        <span>{recipe.cookTime}</span>
+
+                    {recipe.authorName && (
+                      <p className="text-[9px] sm:text-[10px] font-medium text-outline flex items-center gap-1 truncate">
+                        <ChefHat className="w-2.5 h-2.5 shrink-0" />
+                        <span className="truncate">{recipe.authorName}</span>
+                      </p>
+                    )}
+
+                    <div className="flex items-center gap-1.5 sm:gap-2 text-on-surface-variant flex-wrap pt-0.5">
+                      <div className="flex items-center gap-1">
+                        <Clock className="w-3 h-3 sm:w-3.5 sm:h-3.5 shrink-0" />
+                        <span className="text-[9px] sm:text-xs">{recipe.cookTime}</span>
                       </div>
-                      <span className={`px-2 py-0.5 rounded-md text-[10px] font-bold uppercase tracking-wider ${getDiffClass(recipe.difficulty)}`}>
+                      <span className={`px-1.5 py-0.5 rounded text-[8px] sm:text-[9px] font-bold uppercase tracking-wide ${getDiffClass(recipe.difficulty)}`}>
                         {t(recipe.difficulty)}
                       </span>
                       {recipe.calories && (
-                        <span className="text-xs font-medium text-outline">
+                        <span className="hidden sm:inline text-[9px] sm:text-[10px] font-medium text-outline">
                           {recipe.calories}
                         </span>
                       )}
@@ -320,25 +373,28 @@ export default function HomeView({
               );
             })}
           </div>
+
         ) : (
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            className="py-20 text-center space-y-4"
+            className="py-14 sm:py-20 text-center space-y-3"
           >
-            <div className="w-20 h-20 bg-surface-container-high rounded-full flex items-center justify-center mx-auto mb-6">
-              <FilterX className="w-10 h-10 text-on-surface-variant" />
+            <div className="w-14 h-14 sm:w-20 sm:h-20 bg-surface-container-high rounded-full flex items-center justify-center mx-auto mb-4">
+              <FilterX className="w-7 h-7 sm:w-10 sm:h-10 text-on-surface-variant" />
             </div>
-            <h4 className="text-xl font-bold text-on-surface">{t("No recipes found.")}</h4>
-            <p className="text-on-surface-variant">{t("Try adjusting your filters or search keywords.")}</p>
-            <button 
+            <h4 className="text-base sm:text-xl font-bold text-on-surface">{t("No recipes found.")}</h4>
+            <p className="text-xs sm:text-base text-on-surface-variant">
+              {t("Try adjusting your filters or search keywords.")}
+            </p>
+            <button
               onClick={() => {
                 setActiveRegion("All");
                 setActiveCategory("All");
                 setQuickFilter("all");
                 onSearchChange("");
               }}
-              className="text-primary font-bold hover:underline"
+              className="text-primary font-bold hover:underline text-sm"
             >
               {t("Show all recipes")}
             </button>
