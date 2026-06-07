@@ -1,10 +1,5 @@
-/**
- * @license
- * SPDX-License-Identifier: Apache-2.0
- */
-
 import { motion } from "motion/react";
-import { Clock, Bookmark, ChefHat, Star } from "lucide-react";
+import { Clock, Bookmark, ChefHat, Star, ArrowUpRight, Sparkles } from "lucide-react";
 import { Recipe } from "./types";
 import { useAuth } from "./contexts/AuthContext";
 import { useLanguage } from "./contexts/LanguageContext";
@@ -42,13 +37,13 @@ export default function MyRecipesView({
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -10 }}
     >
-      <header className="mb-10 pt-4">
-        <h2 className="text-3xl font-extrabold tracking-tight text-on-surface mb-2">{t("My Recipes")}</h2>
-        <p className="text-on-surface-variant font-medium">{t("Manage and view the culinary creations you shared.")}</p>
+      <header className="mb-8 pt-2">
+        <h2 className="text-2xl sm:text-4xl font-extrabold tracking-tight text-on-surface mb-2">{t("My Recipes")}</h2>
+        <p className="text-on-surface-variant font-bold text-xs sm:text-sm">{t("Manage and view the culinary creations you shared.")}</p>
       </header>
 
       {myRecipes.length > 0 ? (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 md:gap-8">
           {myRecipes.map((recipe) => {
             const isSaved = savedIds.includes(recipe.id);
             return (
@@ -57,67 +52,98 @@ export default function MyRecipesView({
                 layout
                 layoutId={`recipe-my-${recipe.id}`}
                 onClick={() => onRecipeClick(recipe)}
-                className="group cursor-pointer bg-surface-container-lowest rounded-xl overflow-hidden transition-all duration-300 hover:shadow-[0_20px_40px_rgba(148,74,0,0.1)] flex flex-col h-full"
+                className="group cursor-pointer bg-surface-container-lowest rounded-4xl overflow-hidden transition-all duration-500 hover:shadow-[0_24px_48px_rgba(140,45,25,0.08)] flex flex-col h-full"
               >
-                <div className="relative overflow-hidden h-60 w-full">
-                  <img src={recipe.image} alt={recipe.title} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
+                <div className="relative overflow-hidden h-40 sm:h-56 w-full shrink-0">
+                  <img src={recipe.image} alt={recipe.title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
                   
-                  <div className="absolute top-4 left-4 flex gap-2 flex-wrap">
-                    <span className="bg-primary text-on-primary px-3 py-1 rounded-md text-[10px] font-bold uppercase tracking-wider">
+                  {/* Badges — top-left */}
+                  <div className="absolute top-3 left-3 flex gap-1.5 flex-wrap max-w-[calc(100%-44px)] z-10">
+                    <span className="bg-secondary text-on-secondary px-2.5 py-0.5 rounded text-[8px] sm:text-[9px] font-extrabold uppercase tracking-widest leading-tight shadow-xs">
                       {t(recipe.category)}
                     </span>
-                    <span className="bg-white/90 dark:bg-black/60 backdrop-blur-md text-on-surface px-3 py-1 rounded-md text-[10px] font-bold uppercase tracking-wider">
+                    <span className="bg-white dark:bg-[#121210] text-on-surface px-2.5 py-0.5 rounded text-[8px] sm:text-[9px] font-extrabold uppercase tracking-widest leading-tight shadow-xs border border-outline-variant/10">
                       {recipe.region}
                     </span>
                     {recipe.spicy && (
-                      <span className="bg-red-500/90 text-white px-2 py-1 rounded-md text-[10px] font-bold flex items-center gap-1">
+                      <span className="bg-red-600 text-white px-1.5 py-0.5 rounded text-[9px] font-bold shadow-xs">
                         🌶️
                       </span>
                     )}
                   </div>
 
+                  {/* Save button — top-right */}
                   <button 
                     onClick={(e) => {
                       e.stopPropagation();
                       onToggleSave(recipe.id);
                     }}
-                    className="absolute top-4 right-4 bg-white/20 backdrop-blur-xl w-10 h-10 rounded-full flex items-center justify-center text-white transition-all active:scale-90"
+                    className={`absolute top-3 right-3 w-9 h-9 rounded-full flex items-center justify-center transition-all active:scale-90 z-10 ${
+                      isSaved 
+                        ? "bg-secondary text-white shadow-md" 
+                        : "bg-black/45 hover:bg-black/65 text-white"
+                    }`}
                     aria-label={isSaved ? "Remove from saved" : "Save recipe"}
                   >
-                    <Bookmark className={`w-5 h-5 ${isSaved ? 'fill-white' : ''}`} />
+                    <Bookmark className={`w-4 h-4 ${isSaved ? 'fill-current' : ''}`} />
                   </button>
 
-                  {/* Rating badge */}
+                  {/* Floating Action Buttons — bottom-right */}
+                  <div className="absolute bottom-3 right-3 flex flex-col gap-2 z-10">
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        onRecipeClick(recipe);
+                      }}
+                      className="w-9 h-9 rounded-full bg-secondary hover:bg-secondary-container text-white flex items-center justify-center shadow-lg transition-all active:scale-90"
+                      aria-label="View Recipe Details"
+                    >
+                      <ArrowUpRight className="w-4.5 h-4.5" />
+                    </button>
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        onRecipeClick(recipe);
+                      }}
+                      className="w-9 h-9 rounded-full bg-primary hover:bg-primary-container text-white flex items-center justify-center shadow-lg transition-all active:scale-90"
+                      aria-label="Ask AI about this recipe"
+                    >
+                      <Sparkles className="w-4 h-4 text-white" />
+                    </button>
+                  </div>
+
+                  {/* Rating badge — bottom-left */}
                   {recipe.rating && recipe.rating > 0 && (
-                    <div className="absolute bottom-4 left-4 flex items-center gap-1.5 bg-black/50 backdrop-blur-md text-white px-3 py-1.5 rounded-full">
+                    <div className="absolute bottom-3 left-3 flex items-center gap-1.5 bg-black/55 backdrop-blur-xs text-white px-2.5 py-1.5 rounded-full border border-white/10 shadow-md">
                       <Star className="w-3.5 h-3.5 fill-yellow-400 text-yellow-400" />
-                      <span className="text-xs font-bold">{recipe.rating}</span>
-                      <span className="text-[10px] opacity-70">({recipe.ratingCount || 0})</span>
+                      <span className="text-[10px] font-extrabold">{recipe.rating}</span>
+                      <span className="text-[9px] opacity-80">({recipe.ratingCount || 0})</span>
                     </div>
                   )}
                 </div>
 
-                <div className="p-6 flex flex-col justify-between grow space-y-3">
+                {/* Card Body */}
+                <div className="p-4 sm:p-5 flex flex-col justify-between grow space-y-2 sm:space-y-3">
                   <div>
-                    <h4 className="text-xl font-bold leading-tight group-hover:text-primary transition-colors mb-2">
+                    <h4 className="text-xs sm:text-base font-black text-secondary leading-snug group-hover:text-primary transition-colors line-clamp-2">
                       {recipe.title}
                     </h4>
-                    <p className="text-xs font-medium text-outline flex items-center gap-1.5 mb-3">
-                      <ChefHat className="w-3 h-3" />
+                    <p className="text-[10px] font-bold text-on-surface-variant/70 flex items-center gap-1.5 mt-2">
+                      <ChefHat className="w-3.5 h-3.5 text-secondary" />
                       {t("Shared by You")}
                     </p>
                   </div>
 
-                  <div className="flex items-center gap-3 text-on-surface-variant text-sm pt-1 flex-wrap mt-auto">
-                    <div className="flex items-center gap-1.5">
-                      <Clock className="w-4 h-4" />
+                  <div className="flex items-center gap-2.5 text-on-surface-variant flex-wrap pt-2 border-t border-outline-variant/10 mt-auto">
+                    <div className="flex items-center gap-1.5 text-[10px] sm:text-xs font-semibold">
+                      <Clock className="w-3.5 h-3.5 text-secondary" />
                       <span>{recipe.cookTime}</span>
                     </div>
-                    <span className={`px-2 py-0.5 rounded-md text-[10px] font-bold uppercase tracking-wider ${getDiffClass(recipe.difficulty)}`}>
+                    <span className={`px-2 py-0.5 rounded-md text-[8px] sm:text-[9px] font-extrabold uppercase tracking-wide ${getDiffClass(recipe.difficulty)}`}>
                       {t(recipe.difficulty)}
                     </span>
                     {recipe.calories && (
-                      <span className="text-xs font-medium text-outline">
+                      <span className="text-[9px] sm:text-[10px] font-bold text-outline">
                         {recipe.calories}
                       </span>
                     )}
@@ -128,22 +154,22 @@ export default function MyRecipesView({
           })}
         </div>
       ) : (
-        <section className="mt-12 py-16 flex flex-col items-center text-center bg-surface-container-low rounded-xl border-dashed border-2 border-outline-variant/30">
-          <div className="w-48 h-48 mb-8 relative flex items-center justify-center">
-            <div className="absolute inset-0 bg-primary-fixed/20 rounded-full blur-3xl"></div>
-            <div className="relative bg-surface-container-lowest p-8 rounded-full shadow-lg">
-               <ChefHat className="w-20 h-20 text-orange-200 stroke-1" />
+        <section className="mt-8 py-16 flex flex-col items-center text-center bg-surface-container-low rounded-4xl border-dashed border-2 border-outline-variant/30">
+          <div className="w-40 h-40 mb-6 relative flex items-center justify-center">
+            <div className="absolute inset-0 bg-primary-fixed/20 rounded-full blur-2xl"></div>
+            <div className="relative bg-surface-container-lowest p-6 rounded-full shadow-md">
+               <ChefHat className="w-16 h-16 text-secondary stroke-1" />
             </div>
           </div>
-          <h3 className="text-2xl font-bold text-on-surface mb-3">{t("No Shared Recipes")}</h3>
-          <p className="text-on-surface-variant max-w-xs mb-10 leading-relaxed">
+          <h3 className="text-xl sm:text-2xl font-black text-on-surface mb-2">{t("No Shared Recipes")}</h3>
+          <p className="text-on-surface-variant text-xs sm:text-sm max-w-xs mb-8 leading-relaxed">
             {isGuest 
               ? t("Sign in to start sharing and managing your own traditional recipes!") 
               : t("You haven't shared any recipes with the community yet. Share your favorite traditional dish!")}
           </p>
           <button 
             onClick={onShare}
-            className="bg-linear-to-br from-primary to-primary-container text-on-primary font-bold px-10 py-4 rounded-full transition-all duration-300 hover:shadow-[0_8px_24px_rgba(148,74,0,0.2)] active:scale-95"
+            className="bg-primary hover:bg-primary-container text-on-primary font-black px-8 py-3.5 rounded-full transition-all duration-300 active:scale-95 shadow-md shadow-primary/15"
           >
             {isGuest ? t("Sign In & Get Started") : t("Share a Recipe")}
           </button>

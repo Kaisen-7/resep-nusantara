@@ -80,7 +80,7 @@ VALUES
   '{"protein": "8g", "fat": "22g", "carbs": "64g"}'::jsonb,
   NULL,
   '[{"name": "All-purpose flour", "detail": "250g", "role": "Flour base for pancake batter."}, {"name": "Milk or water", "detail": "300ml", "role": "Liquid base for batter."}, {"name": "Baking soda & Yeast", "detail": "1/2 tsp each", "role": "Leavening agents to create honeycomb texture."}, {"name": "Sugar", "detail": "3 tbsp", "role": "Sweetens batter."}, {"name": "Chocolate & Cheese & Butter", "detail": "to taste", "role": "Indulgent toppings."}]'::jsonb,
-  '[{"title": "Rest batter", "text": "Whisk flour, sugar, yeast, egg, and milk until smooth. Rest for 1 hour to allow yeast to activate. Whisk in baking soda right before cooking."}, {"title": "Bake in skillet", "text": "Pour batter into a greased heavy skillet. Cook on medium-low until honeycomb bubbles form. Sprinkle sugar on top, cover, and bake until dry."}, {"title": "Butter and slice", text: "Remove from heat. Spread butter generously. Add toppings (chocolate, cheese, condensed milk). Fold in half, cut into slices, and serve."}]'::jsonb,
+  '[{"title": "Rest batter", "text": "Whisk flour, sugar, yeast, egg, and milk until smooth. Rest for 1 hour to allow yeast to activate. Whisk in baking soda right before cooking."}, {"title": "Bake in skillet", "text": "Pour batter into a greased heavy skillet. Cook on medium-low until honeycomb bubbles form. Sprinkle sugar on top, cover, and bake until dry."}, {"title": "Butter and slice", "text": "Remove from heat. Spread butter generously. Add toppings (chocolate, cheese, condensed milk). Fold in half, cut into slices, and serve."}]'::jsonb,
   4.9, 95, 'Nusa Culinary', true
 ),
 (
@@ -93,7 +93,7 @@ VALUES
   '{"protein": "28g", "fat": "24g", "carbs": "12g"}'::jsonb,
   NULL,
   '[{"name": "Chicken pieces", "detail": "1kg", "role": "Main protein."}, {"name": "Galangal", "detail": "200g, grated", "role": "Key ingredient that forms the crunchy crispy toppings."}, {"name": "Lemongrass & Bay leaves", "detail": "3 stalks, 4 leaves", "role": "Aromatics added during simmering."}, {"name": "Shallots & Garlic & Turmeric", "detail": "8 shallots, 5 garlic, 3cm turmeric", "role": "Ground spice rub."}]'::jsonb,
-  '[{"title": "Simmer chicken (Ungkep)", "text": "Mix chicken, grated galangal, ground spices, lemongrass, and bay leaves with a cup of water in a pot. Simmer until stock is dry."}, {"title": "Fry chicken", "text": "Separate chicken pieces from the galangal spice bits. Deep-fry chicken until crispy and golden brown."}, {"title": "Fry galangal crumbs", text: "Deep-fry the remaining galangal spice crumbs until golden. Drain and sprinkle generously over the fried chicken."}]'::jsonb,
+  '[{"title": "Simmer chicken (Ungkep)", "text": "Mix chicken, grated galangal, ground spices, lemongrass, and bay leaves with a cup of water in a pot. Simmer until stock is dry."}, {"title": "Fry chicken", "text": "Separate chicken pieces from the galangal spice bits. Deep-fry chicken until crispy and golden brown."}, {"title": "Fry galangal crumbs", "text": "Deep-fry the remaining galangal spice crumbs until golden. Drain and sprinkle generously over the fried chicken."}]'::jsonb,
   4.8, 47, 'Nusa Culinary', true
 ),
 (
@@ -106,7 +106,7 @@ VALUES
   '{"protein": "3g", "fat": "12g", "carbs": "38g"}'::jsonb,
   NULL,
   '[{"name": "Avocado", "detail": "1 piece, scooped", "role": "Rich, creamy fruit."}, {"name": "Young coconut", "detail": "1 scrapings", "role": "Refreshing texture."}, {"name": "Jackfruit", "detail": "100g, sliced", "role": "Sweet, tropical aroma."}, {"name": "Condensed milk", "detail": "4 tbsp", "role": "Creamy sweetener."}, {"name": "Shaved ice & Simple syrup", "detail": "to taste", "role": "Base for sweet chilled dessert."}]'::jsonb,
-  '[{"title": "Prepare ingredients", "text": "Scoop out avocado, scrape coconut flesh, and slice jackfruits."}, {"title": "Assemble bowl", "text": "Arrange the fruits inside a serving bowl. Mound shaved ice on top."}, {"title": "Drizzle sweet syrup", text: "Pour simple syrup and condensed milk generously over the shaved ice. Serve immediately."}]'::jsonb,
+  '[{"title": "Prepare ingredients", "text": "Scoop out avocado, scrape coconut flesh, and slice jackfruits."}, {"title": "Assemble bowl", "text": "Arrange the fruits inside a serving bowl. Mound shaved ice on top."}, {"title": "Drizzle sweet syrup", "text": "Pour simple syrup and condensed milk generously over the shaved ice. Serve immediately."}]'::jsonb,
   4.6, 31, 'Nusa Culinary', true
 ),
 (
@@ -119,7 +119,7 @@ VALUES
   '{"protein": "16g", "fat": "18g", "carbs": "20g"}'::jsonb,
   NULL,
   '[{"name": "Potatoes", "detail": "500g, diced", "role": "Fried potato cubes; forms the bulk of the dish."}, {"name": "Chicken livers", "detail": "250g, diced", "role": "Iron-rich boiled liver cubes."}, {"name": "Red curly chilies", "detail": "10 pieces", "role": "Gives the dish its bright red color and spice paste base."}, {"name": "Coconut milk", "detail": "100ml", "role": "Adds sweet creaminess to the chili paste."}]'::jsonb,
-  '[{"title": "Fry components", "text": "Deep fry diced potatoes until light golden. Boil chicken liver with ginger, drain, and dice."}, {"title": "Cook spice paste", "text": "Sauté ground chilies, shallots, and garlic with lime leaves and galangal until fragrant. Stir in coconut milk."}, {"title": "Combine and reduce", text: "Add the chicken livers and simmer in the sauce. Gently fold in the fried potato cubes until the gravy has fully reduced and coated the potatoes."}]'::jsonb,
+  '[{"title": "Fry components", "text": "Deep fry diced potatoes until light golden. Boil chicken liver with ginger, drain, and dice."}, {"title": "Cook spice paste", "text": "Sauté ground chilies, shallots, and garlic with lime leaves and galangal until fragrant. Stir in coconut milk."}, {"title": "Combine and reduce", "text": "Add the chicken livers and simmer in the sauce. Gently fold in the fried potato cubes until the gravy has fully reduced and coated the potatoes."}]'::jsonb,
   4.5, 22, 'Nusa Culinary', true
 ),
 (

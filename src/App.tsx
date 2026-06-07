@@ -671,30 +671,30 @@ export default function App() {
 
       {/* Bottom Navigation - Mobile Only */}
       {currentView !== "detail" && (
-        <nav className="fixed bottom-0 left-0 w-full h-20 backdrop-blur-xl flex justify-around items-center px-4 pb-4 z-40 rounded-t-3xl shadow-[0_-8px_24px_rgba(148,74,0,0.08)] transition-colors duration-500 bg-surface-container/80 border-t border-outline-variant/10 md:hidden">
+        <nav className="fixed bottom-0 left-0 w-full h-20 backdrop-blur-xl flex justify-around items-center px-4 pb-4 z-40 rounded-t-3xl shadow-[0_-8px_24px_rgba(0,0,0,0.04)] transition-colors duration-500 bg-surface/95 border-t border-outline-variant/10 md:hidden">
           <button 
             onClick={() => {
               setViewingProfileId(null);
               setActiveCategory("All");
               setCurrentView("home");
             }}
-            className={`flex flex-col items-center justify-center px-3 py-1 transition-all duration-300 rounded-full ${currentView === "home" ? 'text-primary' : 'text-on-surface-variant'}`}
+            className={`flex flex-col items-center justify-center px-3 py-1 transition-all duration-300 rounded-full ${currentView === "home" ? 'text-secondary font-black' : 'text-on-surface-variant/70 font-semibold'}`}
           >
             <Compass className={`w-5 h-5 ${currentView === "home" ? 'fill-current' : ''}`} />
-            <span className="font-bold text-[9px] uppercase tracking-wider mt-1">{t("Explore")}</span>
+            <span className="text-[9px] uppercase tracking-wider mt-1">{t("Explore")}</span>
           </button>
           <button 
             onClick={() => {
               setViewingProfileId(null);
               setCurrentView("saved");
             }}
-            className={`relative flex flex-col items-center justify-center px-3 py-1 transition-all duration-300 rounded-full ${currentView === "saved" ? 'text-primary' : 'text-on-surface-variant'}`}
+            className={`relative flex flex-col items-center justify-center px-3 py-1 transition-all duration-300 rounded-full ${currentView === "saved" ? 'text-secondary font-black' : 'text-on-surface-variant/70 font-semibold'}`}
           >
             <div className="relative">
               <Bookmark className={`w-5 h-5 ${currentView === "saved" ? 'fill-current' : ''}`} />
-              {savedIds.length > 0 && <span className="badge-counter">{savedIds.length}</span>}
+              {savedIds.length > 0 && <span className="badge-counter bg-secondary border-surface">{savedIds.length}</span>}
             </div>
-            <span className="font-bold text-[9px] uppercase tracking-wider mt-1">{t("Saved Collection")}</span>
+            <span className="text-[9px] uppercase tracking-wider mt-1">{t("Saved Collection")}</span>
           </button>
           <button 
             onClick={() => {
@@ -706,33 +706,33 @@ export default function App() {
                 setCurrentView("my-recipes");
               }
             }}
-            className={`flex flex-col items-center justify-center px-3 py-1 transition-all duration-300 rounded-full ${currentView === "my-recipes" ? 'text-primary' : 'text-on-surface-variant'}`}
+            className={`flex flex-col items-center justify-center px-3 py-1 transition-all duration-300 rounded-full ${currentView === "my-recipes" ? 'text-secondary font-black' : 'text-on-surface-variant/70 font-semibold'}`}
           >
             <ChefHat className={`w-5 h-5 ${currentView === "my-recipes" ? 'fill-current' : ''}`} />
-            <span className="font-bold text-[9px] uppercase tracking-wider mt-1">{t("My Recipes")}</span>
+            <span className="text-[9px] uppercase tracking-wider mt-1">{t("My Recipes")}</span>
           </button>
           <button 
             onClick={() => {
               setViewingProfileId(null);
               setCurrentView("shopping");
             }}
-            className={`relative flex flex-col items-center justify-center px-3 py-1 transition-all duration-300 rounded-full ${currentView === "shopping" ? 'text-primary' : 'text-on-surface-variant'}`}
+            className={`relative flex flex-col items-center justify-center px-3 py-1 transition-all duration-300 rounded-full ${currentView === "shopping" ? 'text-secondary font-black' : 'text-on-surface-variant/70 font-semibold'}`}
           >
             <div className="relative">
               <ShoppingBag className={`w-5 h-5 ${currentView === "shopping" ? 'fill-current' : ''}`} />
-              {shoppingList.length > 0 && <span className="badge-counter">{shoppingList.length}</span>}
+              {shoppingList.length > 0 && <span className="badge-counter bg-secondary border-surface">{shoppingList.length}</span>}
             </div>
-            <span className="font-bold text-[9px] uppercase tracking-wider mt-1">{t("Market List")}</span>
+            <span className="text-[9px] uppercase tracking-wider mt-1">{t("Market List")}</span>
           </button>
           <button 
             onClick={() => {
               setViewingProfileId(null);
               setCurrentView("profile");
             }}
-            className={`flex flex-col items-center justify-center px-3 py-1 transition-all duration-300 rounded-full ${currentView === "profile" ? 'text-primary' : 'text-on-surface-variant'}`}
+            className={`flex flex-col items-center justify-center px-3 py-1 transition-all duration-300 rounded-full ${currentView === "profile" ? 'text-secondary font-black' : 'text-on-surface-variant/70 font-semibold'}`}
           >
             <User className={`w-5 h-5 ${currentView === "profile" ? 'fill-current' : ''}`} />
-            <span className="font-bold text-[9px] uppercase tracking-wider mt-1">{t("Profile")}</span>
+            <span className="text-[9px] uppercase tracking-wider mt-1">{t("Profile")}</span>
           </button>
         </nav>
       )}

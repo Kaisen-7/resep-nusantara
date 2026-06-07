@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { motion } from "motion/react";
-import { User, Bookmark, ShoppingBag, Settings, ChevronRight, PieChart, Heart, LogOut, ChefHat, Globe, Info, ChevronLeft, Clock, Star } from "lucide-react";
+import { User, Bookmark, ShoppingBag, Settings, ChevronRight, PieChart, Heart, LogOut, ChefHat, Globe, Info, ChevronLeft, Clock, Star, ArrowUpRight } from "lucide-react";
 import { Recipe, Profile } from "./types";
 import { useAuth } from "./contexts/AuthContext";
 import { useLanguage } from "./contexts/LanguageContext";
@@ -199,39 +199,62 @@ export default function ProfileView({
         <section className="mt-10 border-t border-outline-variant/10 pt-8 text-left">
           <h3 className="text-xl font-black text-on-surface mb-6 ml-2">{t("My Shared Recipes")}</h3>
           {targetRecipes.length > 0 ? (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 md:gap-8">
               {targetRecipes.map((recipe) => (
                 <article
                   key={recipe.id}
                   onClick={() => onRecipeClick && onRecipeClick(recipe)}
-                  className="group cursor-pointer bg-surface-container-low rounded-2xl overflow-hidden transition-all duration-300 hover:shadow-lg border border-outline-variant/10 flex flex-col h-full text-left"
+                  className="group cursor-pointer bg-surface-container-lowest rounded-4xl overflow-hidden transition-all duration-500 hover:shadow-[0_24px_48px_rgba(140,45,25,0.08)] flex flex-col h-full text-left"
                 >
-                  <div className="relative h-44 w-full overflow-hidden">
-                    <img src={recipe.image} alt={recipe.title} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
-                    <div className="absolute top-3 left-3 flex gap-1.5 flex-wrap">
-                      <span className="bg-primary text-on-primary px-2 py-0.5 rounded text-[9px] font-bold uppercase tracking-wider">
+                  <div className="relative overflow-hidden h-40 sm:h-52 w-full shrink-0">
+                    <img src={recipe.image} alt={recipe.title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+                    
+                    {/* Badges — top-left */}
+                    <div className="absolute top-3 left-3 flex gap-1.5 flex-wrap max-w-[calc(100%-44px)] z-10">
+                      <span className="bg-secondary text-on-secondary px-2.5 py-0.5 rounded text-[8px] sm:text-[9px] font-extrabold uppercase tracking-widest leading-tight shadow-xs">
                         {t(recipe.category)}
                       </span>
                     </div>
+
+                    {/* Floating Actions — bottom-right */}
+                    <div className="absolute bottom-3 right-3 flex flex-col gap-2 z-10">
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          onRecipeClick && onRecipeClick(recipe);
+                        }}
+                        className="w-9 h-9 rounded-full bg-secondary hover:bg-secondary-container text-white flex items-center justify-center shadow-lg transition-all active:scale-90"
+                        aria-label="View Recipe Details"
+                      >
+                        <ArrowUpRight className="w-4.5 h-4.5" />
+                      </button>
+                    </div>
+
+                    {/* Rating badge — bottom-left */}
+                    {recipe.rating && recipe.rating > 0 && (
+                      <div className="absolute bottom-3 left-3 flex items-center gap-1.5 bg-black/55 backdrop-blur-xs text-white px-2.5 py-1.5 rounded-full border border-white/10 shadow-md">
+                        <Star className="w-3.5 h-3.5 fill-yellow-400 text-yellow-400" />
+                        <span className="text-[10px] font-extrabold">{recipe.rating}</span>
+                      </div>
+                    )}
                   </div>
-                  <div className="p-4 flex flex-col justify-between grow space-y-2">
-                    <h4 className="font-bold text-sm text-on-surface leading-snug group-hover:text-primary transition-colors line-clamp-1">
-                      {recipe.title}
-                    </h4>
-                    <div className="flex items-center gap-2 text-on-surface-variant text-xs pt-1 flex-wrap mt-auto">
-                      <div className="flex items-center gap-1">
-                        <Clock className="w-3.5 h-3.5 text-outline" />
+
+                  {/* Card Body */}
+                  <div className="p-4 sm:p-5 flex flex-col justify-between grow space-y-2 sm:space-y-3">
+                    <div>
+                      <h4 className="text-xs sm:text-base font-black text-secondary leading-snug group-hover:text-primary transition-colors line-clamp-2">
+                        {recipe.title}
+                      </h4>
+                    </div>
+
+                    <div className="flex items-center gap-2.5 text-on-surface-variant flex-wrap pt-2 border-t border-outline-variant/10 mt-auto">
+                      <div className="flex items-center gap-1.5 text-[10px] sm:text-xs font-semibold">
+                        <Clock className="w-3.5 h-3.5 text-secondary" />
                         <span>{recipe.cookTime}</span>
                       </div>
-                      <span className="bg-secondary/10 text-secondary px-1.5 py-0.5 rounded text-[9px] font-bold">
+                      <span className="bg-secondary/15 text-secondary px-2 py-0.5 rounded-md text-[8px] sm:text-[9px] font-extrabold uppercase tracking-wide">
                         {t(recipe.difficulty)}
                       </span>
-                      {recipe.rating && recipe.rating > 0 ? (
-                        <div className="flex items-center gap-1 text-tertiary">
-                          <Star className="w-3 h-3 fill-current" />
-                          <span className="text-[10px] font-bold">{recipe.rating}</span>
-                        </div>
-                      ) : null}
                     </div>
                   </div>
                 </article>

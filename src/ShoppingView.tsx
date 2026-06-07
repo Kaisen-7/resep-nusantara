@@ -315,7 +315,7 @@ export default function ShoppingView({
 
                             <button 
                               onClick={() => onRemove(item.id)}
-                              className="p-1.5 rounded-full opacity-0 group-hover/item:opacity-100 transition-all hover:bg-secondary/10 text-secondary"
+                              className="p-1.5 rounded-full opacity-100 md:opacity-0 md:group-hover/item:opacity-100 transition-all hover:bg-secondary/10 text-secondary"
                               title="Delete Item"
                             >
                               <Trash2 className="w-3.5 h-3.5" />

@@ -4,8 +4,8 @@
  */
 
 import { useState, useMemo, useEffect } from "react";
-import { motion, AnimatePresence } from "motion/react";
-import { Clock, Utensils, Bookmark, FilterX, Star, Flame, TrendingUp, Sparkles, ChefHat } from "lucide-react";
+import { motion } from "motion/react";
+import { Clock, Bookmark, FilterX, Star, Sparkles, ChefHat, ArrowUpRight } from "lucide-react";
 import { Recipe } from "./types";
 import { useLanguage } from "./contexts/LanguageContext";
 
@@ -109,14 +109,14 @@ export default function HomeView({
   };
 
   const SkeletonCard = () => (
-    <div className="bg-surface-container-lowest rounded-2xl overflow-hidden">
-      <div className="skeleton h-44 w-full rounded-none" />
-      <div className="p-3 space-y-2.5">
-        <div className="skeleton h-4 w-3/4" />
+    <div className="bg-surface-container-lowest rounded-3xl overflow-hidden shadow-xs">
+      <div className="skeleton h-48 w-full rounded-none" />
+      <div className="p-4 space-y-3">
+        <div className="skeleton h-5 w-3/4" />
         <div className="skeleton h-3 w-1/2" />
-        <div className="flex gap-3 pt-1">
-          <div className="skeleton h-3 w-16" />
-          <div className="skeleton h-3 w-12" />
+        <div className="flex gap-3 pt-2">
+          <div className="skeleton h-4 w-16" />
+          <div className="skeleton h-4 w-12" />
         </div>
       </div>
     </div>
@@ -127,33 +127,30 @@ export default function HomeView({
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -10 }}
-      /* safe-area bottom so content clears the fixed bottom nav */
       className="pb-[env(safe-area-inset-bottom,0px)]"
     >
       {/* ── Header ── */}
-      <header className="mb-4 sm:mb-6 pt-2 sm:pt-4">
-        <p className="text-on-surface-variant font-medium tracking-tight text-xs sm:text-sm">
+      <header className="mb-6 pt-2">
+        <p className="text-on-surface-variant font-bold tracking-tight text-xs sm:text-sm">
           {greeting.emoji} {greeting.text},{" "}
           {language === "id" ? "Pencinta Kuliner!" : "Foodie!"}
         </p>
-        <h2 className="text-xl sm:text-3xl font-extrabold text-on-surface tracking-tighter leading-tight mt-0.5">
+        <h2 className="text-2xl sm:text-4xl font-extrabold text-on-surface tracking-tighter leading-tight mt-1">
           {t("Ready for a spice adventure?")}
         </h2>
         {!isLoading && recipes.length > 0 && (
-          <div className="flex flex-wrap items-center gap-x-2 gap-y-1 mt-1.5 sm:mt-3 text-[9px] sm:text-xs font-bold text-outline uppercase tracking-wider">
+          <div className="flex flex-wrap items-center gap-x-2.5 gap-y-1.5 mt-2.5 text-[10px] sm:text-xs font-extrabold text-outline uppercase tracking-widest">
             <span>{recipes.length} {t("Recipes")}</span>
-            <span className="w-1 h-1 rounded-full bg-outline" />
+            <span className="w-1.5 h-1.5 rounded-full bg-outline/40" />
             <span>{new Set(recipes.map(r => r.region)).size} {t("Regions")}</span>
-            <span className="w-1 h-1 rounded-full bg-outline" />
+            <span className="w-1.5 h-1.5 rounded-full bg-outline/40" />
             <span>{new Set(recipes.map(r => r.category)).size} {t("Categories")}</span>
           </div>
         )}
       </header>
 
-      {/* ── Quick Filter Chips ──
-           Key fix: negative margin pulls chips flush to screen edge so
-           they scroll properly and don't appear clipped. */}
-      <div className="flex flex-wrap items-center gap-1.5 mb-4 sm:mb-6  no-scrollbar -mx-4 px-4 sm:-mx-6 sm:px-6 pb-0.5 scroll-smooth">
+      {/* ── Quick Filter Chips ── */}
+      <div className="flex flex-wrap items-center gap-2 mb-6 no-scrollbar -mx-4 px-4 sm:-mx-6 sm:px-6 pb-1 scroll-smooth">
         {[
           { key: "all" as const, label: "All Recipes" },
           { key: "trending" as const, label: "🔥 Trending" },
@@ -163,9 +160,9 @@ export default function HomeView({
           <button
             key={chip.key}
             onClick={() => setQuickFilter(chip.key)}
-            className={`flex-shrink-0 px-3.5 sm:px-5 py-2 sm:py-2.5 rounded-full text-[10px] sm:text-xs font-bold whitespace-nowrap transition-all active:scale-95 ${quickFilter === chip.key
-              ? "bg-primary text-white shadow-md shadow-primary/20"
-              : "bg-surface-container-lowest text-on-surface-variant hover:bg-surface-container-high border border-outline-variant/15"
+            className={`shrink-0 px-4 sm:px-6 py-2 rounded-full text-[11px] sm:text-xs font-extrabold whitespace-nowrap transition-all active:scale-95 ${quickFilter === chip.key
+              ? "bg-primary text-on-primary shadow-md shadow-primary/15"
+              : "bg-surface-container text-on-surface-variant hover:bg-surface-container-high"
               }`}
           >
             {t(chip.label)}
@@ -174,31 +171,30 @@ export default function HomeView({
       </div>
 
       {/* ── Filters ── */}
-      <div className="space-y-4 sm:space-y-6">
+      <div className="space-y-5">
         {/* Category */}
         <div>
-          <div className="mb-2 sm:mb-3 flex items-center justify-between">
-            <h3 className="text-[9px] sm:text-[10px] font-bold uppercase tracking-[0.18em] text-outline">
+          <div className="mb-2.5 flex items-center justify-between">
+            <h3 className="text-[10px] font-extrabold uppercase tracking-[0.2em] text-outline">
               {t("Filter by Course")}
             </h3>
             {activeCategory !== "All" && (
               <button
                 onClick={() => setActiveCategory("All")}
-                className="text-[9px] font-bold text-primary uppercase tracking-wider"
+                className="text-[10px] font-extrabold text-primary uppercase tracking-widest"
               >
                 {t("Clear")}
               </button>
             )}
           </div>
-          {/* flex-shrink-0 on each pill keeps long translated labels from wrapping */}
           <div className="-mx-4 px-4 sm:-mx-6 sm:px-6 no-scrollbar flex flex-wrap items-center gap-2 pb-1 scroll-smooth">
             {categories.map(cat => (
               <button
                 key={cat}
                 onClick={() => setActiveCategory(cat)}
-                className={`flex-shrink-0 px-3.5 sm:px-5 py-1.5 sm:py-2 rounded-full font-bold text-[10px] sm:text-sm transition-all shadow-sm whitespace-nowrap active:scale-95 ${activeCategory === cat
-                  ? "bg-primary text-white shadow-md shadow-primary/20"
-                  : "bg-surface-container-low text-on-surface-variant hover:bg-surface-container-high"
+                className={`shrink-0 px-4 sm:px-6 py-2 rounded-full font-extrabold text-[11px] sm:text-xs transition-all whitespace-nowrap active:scale-95 ${activeCategory === cat
+                  ? "bg-primary text-on-primary shadow-md shadow-primary/15"
+                  : "bg-surface-container text-on-surface-variant hover:bg-surface-container-high"
                   }`}
               >
                 {t(cat)}
@@ -209,14 +205,14 @@ export default function HomeView({
 
         {/* Region */}
         <div>
-          <div className="mb-2 sm:mb-3 flex items-center justify-between">
-            <h3 className="text-[9px] sm:text-[10px] font-bold uppercase tracking-[0.18em] text-outline">
+          <div className="mb-2.5 flex items-center justify-between">
+            <h3 className="text-[10px] font-extrabold uppercase tracking-[0.2em] text-outline">
               {t("Filter by Region")}
             </h3>
             {activeRegion !== "All" && (
               <button
                 onClick={() => setActiveRegion("All")}
-                className="text-[9px] font-bold text-primary uppercase tracking-wider"
+                className="text-[10px] font-extrabold text-primary uppercase tracking-widest"
               >
                 {t("Clear")}
               </button>
@@ -227,9 +223,9 @@ export default function HomeView({
               <button
                 key={region}
                 onClick={() => setActiveRegion(region)}
-                className={`flex-shrink-0 px-3.5 sm:px-5 py-1.5 sm:py-2 rounded-full font-bold text-[10px] sm:text-sm transition-all shadow-sm whitespace-nowrap active:scale-95 ${activeRegion === region
-                  ? "bg-secondary text-white shadow-md shadow-secondary/20"
-                  : "bg-surface-container-low text-on-surface-variant hover:bg-surface-container-high"
+                className={`shrink-0 px-4 sm:px-6 py-2 rounded-full font-extrabold text-[11px] sm:text-xs transition-all whitespace-nowrap active:scale-95 ${activeRegion === region
+                  ? "bg-secondary text-on-secondary shadow-md shadow-secondary/15"
+                  : "bg-surface-container text-on-surface-variant hover:bg-surface-container-high"
                   }`}
               >
                 {t(region)}
@@ -240,9 +236,9 @@ export default function HomeView({
       </div>
 
       {/* ── Recipe Grid ── */}
-      <section className="space-y-3 sm:space-y-5 mt-6 sm:mt-8">
+      <section className="space-y-4 mt-8">
         <div className="flex justify-between items-center">
-          <h3 className="text-sm sm:text-xl font-bold tracking-tight">
+          <h3 className="text-base sm:text-2xl font-black tracking-tight text-on-surface">
             {quickFilter === "trending" ? t("🔥 Trending Now") :
               quickFilter === "top-rated" ? t("⭐ Top Rated") :
                 quickFilter === "spicy" ? t("🌶️ Spicy Collection") :
@@ -255,21 +251,18 @@ export default function HomeView({
               setQuickFilter("all");
               onSearchChange("");
             }}
-            className="text-[10px] sm:text-sm font-bold text-primary hover:underline shrink-0 ml-2"
+            className="text-[11px] sm:text-sm font-extrabold text-primary hover:underline shrink-0 ml-2"
           >
             {t("Reset All")}
           </button>
         </div>
 
         {isLoading ? (
-          /* 2-col skeleton on mobile, 3-col on lg */
-          <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-5 md:gap-7">
+          <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 md:gap-8">
             {[...Array(6)].map((_, i) => <SkeletonCard key={i} />)}
           </div>
-
         ) : filteredRecipes.length > 0 ? (
-          /* 2-col on mobile keeps cards reasonably sized without overflow */
-          <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-5 md:gap-7">
+          <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 md:gap-8">
             {filteredRecipes.map((recipe, idx) => {
               const isWide = idx === 0 && filteredRecipes.length > 3;
               const isSaved = savedIds.includes(recipe.id);
@@ -280,100 +273,130 @@ export default function HomeView({
                   layout
                   layoutId={`recipe-${recipe.id}`}
                   onClick={() => onRecipeClick(recipe)}
-                  className={`group cursor-pointer bg-surface-container-lowest rounded-2xl overflow-hidden transition-all duration-300 hover:shadow-[0_16px_32px_rgba(148,74,0,0.10)] flex flex-col ${isWide
-                    ? "col-span-2 sm:col-span-2 lg:col-span-1 xl:col-span-2 xl:flex-row xl:h-[260px]"
+                  className={`group cursor-pointer bg-surface-container-lowest rounded-4xl overflow-hidden transition-all duration-500 hover:shadow-[0_24px_48px_rgba(140,45,25,0.08)] flex flex-col ${isWide
+                    ? "col-span-2 sm:col-span-2 lg:col-span-1 xl:col-span-2 xl:flex-row xl:h-[280px]"
                     : "h-full"
                     }`}
                 >
-                  {/* Image */}
+                  {/* Image Container */}
                   <div
-                    className={`relative overflow-hidden ${isWide
-                      ? "w-full xl:w-1/2 h-40 sm:h-52 xl:h-full"
-                      : "h-36 sm:h-52"
+                    className={`relative overflow-hidden shrink-0 ${isWide
+                      ? "w-full xl:w-1/2 h-44 sm:h-56 xl:h-full"
+                      : "h-40 sm:h-56"
                       }`}
                   >
                     <img
                       src={recipe.image}
                       alt={recipe.title}
-                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                     />
 
-                    {/* Badges — hide region badge on very small cards to avoid overlap */}
-                    <div className="absolute top-2 left-2 flex gap-1 flex-wrap max-w-[calc(100%-44px)]">
-                      <span className="bg-primary text-on-primary px-2 py-0.5 rounded text-[8px] sm:text-[10px] font-bold uppercase tracking-wide leading-tight">
+                    {/* Overlaid Badges — top-left */}
+                    <div className="absolute top-3 left-3 flex gap-1.5 flex-wrap max-w-[calc(100%-44px)] z-10">
+                      <span className="bg-secondary text-on-secondary px-2.5 py-0.5 rounded text-[8px] sm:text-[9px] font-extrabold uppercase tracking-widest leading-tight shadow-xs">
                         {t(recipe.category)}
                       </span>
-                      <span className="hidden sm:inline-block bg-white/90 dark:bg-black/60 backdrop-blur-md text-on-surface px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wide">
+                      <span className="hidden sm:inline-block bg-white dark:bg-[#121210] text-on-surface px-2.5 py-0.5 rounded text-[8px] sm:text-[9px] font-extrabold uppercase tracking-widest leading-tight shadow-xs border border-outline-variant/10">
                         {t(recipe.region)}
                       </span>
                       {recipe.spicy && (
-                        <span className="bg-red-500/90 text-white px-1.5 py-0.5 rounded text-[9px] font-bold">
+                        <span className="bg-red-600 text-white px-1.5 py-0.5 rounded text-[9px] font-bold shadow-xs">
                           🌶️
                         </span>
                       )}
                     </div>
 
-                    {/* Save button — smaller on mobile */}
+                    {/* Bookmark Save Button — top-right */}
                     <button
                       onClick={e => { e.stopPropagation(); onToggleSave(recipe.id); }}
-                      className="absolute top-2 right-2 bg-white/20 backdrop-blur-xl w-8 h-8 sm:w-9 sm:h-9 rounded-full flex items-center justify-center text-white transition-all active:scale-90"
+                      className={`absolute top-3 right-3 w-9 h-9 rounded-full flex items-center justify-center transition-all active:scale-90 z-10 ${
+                        isSaved 
+                          ? "bg-secondary text-white shadow-md" 
+                          : "bg-black/45 hover:bg-black/60 text-white"
+                      }`}
+                      aria-label={isSaved ? "Remove from saved" : "Save recipe"}
                     >
-                      <Bookmark className={`w-3.5 h-3.5 sm:w-4 sm:h-4 ${isSaved ? "fill-white" : ""}`} />
+                      <Bookmark className={`w-4 h-4 ${isSaved ? "fill-current" : ""}`} />
                     </button>
 
-                    {/* Rating */}
+                    {/* Floating Circular Action Buttons — bottom-right */}
+                    <div className="absolute bottom-3 right-3 flex flex-col gap-2 z-10">
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          onRecipeClick(recipe);
+                        }}
+                        className="w-9 h-9 rounded-full bg-secondary hover:bg-secondary-container text-white flex items-center justify-center shadow-lg transition-all active:scale-90"
+                        aria-label="View Recipe Details"
+                      >
+                        <ArrowUpRight className="w-4.5 h-4.5" />
+                      </button>
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          onRecipeClick(recipe);
+                        }}
+                        className="w-9 h-9 rounded-full bg-primary hover:bg-primary-container text-white flex items-center justify-center shadow-lg transition-all active:scale-90"
+                        aria-label="Ask AI about this recipe"
+                      >
+                        <Sparkles className="w-4 h-4 text-white" />
+                      </button>
+                    </div>
+
+                    {/* Rating overlay — bottom-left */}
                     {recipe.rating && recipe.rating > 0 && (
-                      <div className="absolute bottom-2 left-2 flex items-center gap-1 bg-black/50 backdrop-blur-md text-white px-2 py-1 rounded-full">
-                        <Star className="w-2.5 h-2.5 sm:w-3 sm:h-3 fill-yellow-400 text-yellow-400" />
-                        <span className="text-[10px] font-bold">{recipe.rating}</span>
-                        {/* Hide count on tiny cards */}
-                        <span className="hidden sm:inline text-[9px] opacity-70">({recipe.ratingCount})</span>
+                      <div className="absolute bottom-3 left-3 flex items-center gap-1 bg-black/55 backdrop-blur-xs text-white px-2.5 py-1.5 rounded-full border border-white/10 shadow-md">
+                        <Star className="w-3.5 h-3.5 fill-yellow-400 text-yellow-400" />
+                        <span className="text-[10px] font-extrabold">{recipe.rating}</span>
+                        <span className="hidden sm:inline text-[9px] opacity-80">({recipe.ratingCount})</span>
                       </div>
                     )}
                   </div>
 
-                  {/* Card body */}
+                  {/* Card Body */}
                   <div
-                    className={`p-2.5 sm:p-4 flex flex-col justify-between grow space-y-1.5 sm:space-y-2 ${isWide ? "xl:w-1/2" : ""
+                    className={`p-4 sm:p-5 flex flex-col justify-between grow space-y-2 sm:space-y-3 ${isWide ? "xl:w-1/2" : ""
                       }`}
                   >
-                    <h4 className="text-[11px] sm:text-base font-bold leading-snug group-hover:text-primary transition-colors line-clamp-2">
-                      {recipe.title}
-                    </h4>
-
-                    {(isWide || filteredRecipes.length === 1) && (
-                      <p className="text-on-surface-variant text-[10px] sm:text-sm line-clamp-2">
-                        {recipe.description}
-                      </p>
-                    )}
-
-                    {recipe.authorName && (
-                      <p className="text-[9px] sm:text-[10px] font-medium text-outline flex items-center gap-1 truncate">
-                        <ChefHat className="w-2.5 h-2.5 shrink-0" />
-                        <span className="truncate">{recipe.authorName}</span>
-                      </p>
-                    )}
-
-                    <div className="flex items-center gap-1.5 sm:gap-2 text-on-surface-variant flex-wrap pt-0.5">
-                      <div className="flex items-center gap-1">
-                        <Clock className="w-3 h-3 sm:w-3.5 sm:h-3.5 shrink-0" />
-                        <span className="text-[9px] sm:text-xs">{recipe.cookTime}</span>
-                      </div>
-                      <span className={`px-1.5 py-0.5 rounded text-[8px] sm:text-[9px] font-bold uppercase tracking-wide ${getDiffClass(recipe.difficulty)}`}>
-                        {t(recipe.difficulty)}
-                      </span>
-                      {recipe.calories && (
-                        <span className="hidden sm:inline text-[9px] sm:text-[10px] font-medium text-outline">
-                          {recipe.calories}
-                        </span>
+                    <div>
+                      <h4 className="text-xs sm:text-base font-black text-secondary leading-snug group-hover:text-primary transition-colors line-clamp-2">
+                        {recipe.title}
+                      </h4>
+                      {(isWide || filteredRecipes.length === 1) && (
+                        <p className="text-on-surface-variant text-[11px] sm:text-xs mt-2 line-clamp-3 leading-relaxed">
+                          {recipe.description}
+                        </p>
                       )}
+                    </div>
+
+                    <div className="space-y-2 mt-auto">
+                      {recipe.authorName && (
+                        <p className="text-[10px] font-bold text-on-surface-variant/70 flex items-center gap-1.5 truncate">
+                          <ChefHat className="w-3.5 h-3.5 shrink-0 text-secondary" />
+                          <span className="truncate">{recipe.authorName}</span>
+                        </p>
+                      )}
+
+                      <div className="flex items-center gap-2.5 text-on-surface-variant flex-wrap pt-2 border-t border-outline-variant/10">
+                        <div className="flex items-center gap-1.5 text-[10px] sm:text-xs font-semibold">
+                          <Clock className="w-3.5 h-3.5 shrink-0 text-secondary" />
+                          <span>{recipe.cookTime}</span>
+                        </div>
+                        <span className={`px-2 py-0.5 rounded-md text-[8px] sm:text-[9px] font-extrabold uppercase tracking-wide ${getDiffClass(recipe.difficulty)}`}>
+                          {t(recipe.difficulty)}
+                        </span>
+                        {recipe.calories && (
+                          <span className="text-[9px] sm:text-[10px] font-bold text-outline">
+                            {recipe.calories}
+                          </span>
+                        )}
+                      </div>
                     </div>
                   </div>
                 </motion.article>
               );
             })}
           </div>
-
         ) : (
           <motion.div
             initial={{ opacity: 0 }}
